@@ -36,7 +36,17 @@ QVariant ListFileModel::data(const QModelIndex &index, int role) const
 
 void ListFileModel::addFileInfo(FileSignatureInfo *fsi)
 {
+    beginInsertRows(index(rowCount()-1), rowCount()-1, rowCount());
     info_files.append(fsi);
+    endInsertRows();
+}
+
+void ListFileModel::delFileInfo(int row)
+{
+    beginRemoveRows(index(row-1), row, row);
+    FileSignatureInfo *fsi = info_files.takeAt(row);
+    delete fsi;
+    endRemoveRows();
 }
 
 int ListFileModel::rowCount(const QModelIndex &parent) const

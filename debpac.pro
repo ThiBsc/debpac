@@ -17,11 +17,13 @@ TEMPLATE = app
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
     src/listfilemodel.cpp \
-    src/filesignatureinfo.cpp
+    src/filesignatureinfo.cpp \
+    src/listviewdragdrop.cpp
 
 HEADERS  += include/mainwindow.h \
     include/listfilemodel.h \
-    include/filesignatureinfo.hpp
+    include/filesignatureinfo.hpp \
+    include/listviewdragdrop.h
 
 FORMS    += mainwindow.ui
 
