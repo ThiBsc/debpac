@@ -36,6 +36,7 @@ void FileSignatureInfo::set_file(std::string path)
 {
     this->path = path;
     this->extension = this->hex_signature = this->description = this->iso_8859_1 = "?";
+    this->category = UNKNOW;
     std::ifstream file(path, std::ios::binary);
     if (file.is_open()){
         //file >> std::noskipws;

@@ -15,11 +15,6 @@ public:
     void addFileInfo(FileSignatureInfo *fsi);
     void delFileInfo(int row);
 
-protected:
-    virtual void dragLeaveEvent(QDragLeaveEvent *e);
-    virtual void dragMoveEvent(QDragMoveEvent *e);
-    virtual void dropEvent(QDropEvent *e);
-
 private:
     ListFileModel *model;
 };

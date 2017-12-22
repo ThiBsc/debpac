@@ -6,6 +6,7 @@ ListViewDragDrop::ListViewDragDrop(QWidget *parent)
 {
     model = new ListFileModel(this);
     setModel(model);
+    setAcceptDrops(true);
 }
 
 ListViewDragDrop::~ListViewDragDrop()
@@ -23,17 +24,3 @@ void ListViewDragDrop::delFileInfo(int row)
     model->delFileInfo(row);
 }
 
-void ListViewDragDrop::dragLeaveEvent(QDragLeaveEvent *e)
-{
-
-}
-
-void ListViewDragDrop::dragMoveEvent(QDragMoveEvent *e)
-{
-
-}
-
-void ListViewDragDrop::dropEvent(QDropEvent *e)
-{
-
-}

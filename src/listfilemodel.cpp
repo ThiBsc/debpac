@@ -2,6 +2,7 @@
 #include "../include/filesignatureinfo.hpp"
 #include <QFileInfo>
 #include <QIcon>
+#include <QMimeData>
 
 ListFileModel::ListFileModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -14,6 +15,21 @@ ListFileModel::~ListFileModel()
     for (FileSignatureInfo* fsi : info_files)
         delete fsi;
     info_files.clear();
+}
+
+void ListFileModel::addFileInfo(FileSignatureInfo *fsi)
+{
+    beginInsertRows(index(rowCount()-1), rowCount()-1, rowCount());
+    info_files.append(fsi);
+    endInsertRows();
+}
+
+void ListFileModel::delFileInfo(int row)
+{
+    beginRemoveRows(index(row-1), row, row);
+    FileSignatureInfo *fsi = info_files.takeAt(row);
+    delete fsi;
+    endRemoveRows();
 }
 
 QVariant ListFileModel::data(const QModelIndex &index, int role) const
@@ -34,19 +50,40 @@ QVariant ListFileModel::data(const QModelIndex &index, int role) const
     return ret;
 }
 
-void ListFileModel::addFileInfo(FileSignatureInfo *fsi)
+bool ListFileModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
 {
-    beginInsertRows(index(rowCount()-1), rowCount()-1, rowCount());
-    info_files.append(fsi);
-    endInsertRows();
+    Q_UNUSED(action);
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+    Q_UNUSED(parent);
+    bool ret = false;
+    if (data->hasUrls()){
+        ret = QFileInfo(data->urls().first().path()).isFile();
+    }
+    return ret;
 }
 
-void ListFileModel::delFileInfo(int row)
+bool ListFileModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-    beginRemoveRows(index(row-1), row, row);
-    FileSignatureInfo *fsi = info_files.takeAt(row);
-    delete fsi;
-    endRemoveRows();
+    Q_UNUSED(action);
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+    Q_UNUSED(parent);
+    bool ret = false;
+    FileSignatureInfo *fsi = new FileSignatureInfo(data->urls().first().path().toStdString());
+    int before = rowCount();
+    addFileInfo(fsi);
+    if (before < rowCount())
+        ret = true;
+    return ret;
+}
+
+Qt::ItemFlags ListFileModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags ret = QAbstractListModel::flags(index);
+    if (!index.isValid())
+        ret |= Qt::ItemIsDropEnabled;
+    return ret;
 }
 
 int ListFileModel::rowCount(const QModelIndex &parent) const
