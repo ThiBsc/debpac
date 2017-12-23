@@ -3,6 +3,7 @@
 #include <QFileInfo>
 #include <QIcon>
 #include <QMimeData>
+#include <QUrl>
 
 ListFileModel::ListFileModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -73,8 +74,10 @@ bool ListFileModel::dropMimeData(const QMimeData *data, Qt::DropAction action, i
     FileSignatureInfo *fsi = new FileSignatureInfo(data->urls().first().path().toStdString());
     int before = rowCount();
     addFileInfo(fsi);
-    if (before < rowCount())
+    if (before < rowCount()){
         ret = true;
+        emit fileSignatureInfoAdded(fsi);
+    }
     return ret;
 }
 
@@ -104,22 +107,6 @@ QVariant ListFileModel::displayRole(const QModelIndex &index) const
 QVariant ListFileModel::decorationRole(const QModelIndex &index) const
 {
     FileSignatureInfo *fsi = info_files.at(index.row());
-    QIcon ret;
-    switch (fsi->getCategory()) {
-    case FileSignatureInfo::BINARY:
-        ret = QIcon("://icon/binary.png");
-        break;
-    case FileSignatureInfo::AUDIO:
-        ret = QIcon("://icon/audio.png");
-        break;
-    case FileSignatureInfo::PACKAGE:
-        ret = QIcon("://icon/package.png");
-        break;
-    case FileSignatureInfo::IMAGE:
-        ret = QIcon("://icon/image.png");
-        break;
-    default:
-        break;
-    }
+    QIcon ret = fsi->getIcon();
     return ret;
 }

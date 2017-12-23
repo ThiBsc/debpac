@@ -21,6 +21,9 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     virtual int	rowCount(const QModelIndex &parent = QModelIndex()) const;
 
+signals:
+    void fileSignatureInfoAdded(FileSignatureInfo *fsi);
+
 private:
     virtual QVariant displayRole(const QModelIndex &index) const;
     virtual QVariant decorationRole(const QModelIndex &index) const;

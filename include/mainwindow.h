@@ -6,6 +6,7 @@
 class QListView;
 class QGridLayout;
 class ListViewDragDrop;
+class TreeView;
 
 namespace Ui {
 class MainWindow;
@@ -23,6 +24,8 @@ private:
     Ui::MainWindow *ui;
     QGridLayout* gLayout;
     ListViewDragDrop* listView;
+    TreeView* treeView;
+
 };
 
 #endif // MAINWINDOW_H

@@ -4,5 +4,7 @@
         <file>icon/package.png</file>
         <file>icon/audio.png</file>
         <file>icon/image.png</file>
+        <file>icon/archive.png</file>
+        <file>icon/folder.png</file>
     </qresource>
 </RCC>

@@ -5,6 +5,7 @@
 #include <string>
 #include <tuple>
 #include <map>
+#include <QIcon>
 
 /**
  * @brief The FileSignatureInfo class
@@ -28,8 +29,9 @@ public:
   std::string getHex_signature();
   std::string getDescription();
   std::string getIso_8859_1();
-  Category getCategory();
   std::string to_string();
+  Category getCategory();
+  QIcon getIcon();
   friend std::ostream& operator<<(std::ostream& os, FileSignatureInfo& obj);
 
   static std::map<std::string, std::tuple<Category, std::string, std::string, std::string> > tab_info;

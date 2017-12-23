@@ -4,23 +4,23 @@
 ListViewDragDrop::ListViewDragDrop(QWidget *parent)
     : QListView(parent)
 {
-    model = new ListFileModel(this);
-    setModel(model);
+    lf_model = new ListFileModel(this);
+    setModel(lf_model);
     setAcceptDrops(true);
 }
 
 ListViewDragDrop::~ListViewDragDrop()
 {
-    delete model;
+    delete lf_model;
 }
 
 void ListViewDragDrop::addFileInfo(FileSignatureInfo *fsi)
 {
-    model->addFileInfo(fsi);
+    lf_model->addFileInfo(fsi);
 }
 
 void ListViewDragDrop::delFileInfo(int row)
 {
-    model->delFileInfo(row);
+    lf_model->delFileInfo(row);
 }
 

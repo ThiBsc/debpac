@@ -16,7 +16,7 @@ public:
     void delFileInfo(int row);
 
 private:
-    ListFileModel *model;
+    ListFileModel *lf_model;
 };
 
 #endif // LISTVIEWDRAGDROP_H
