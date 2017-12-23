@@ -19,7 +19,7 @@ public:
     template<class T>
     T getChild(std::string name)
     {
-        T ret;
+        T ret = nullptr;
         for (AbstractFile *af : tree){
             if(T f = dynamic_cast<T>(af)) {
                if (af->getPath() == name){

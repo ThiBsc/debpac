@@ -110,6 +110,7 @@ QIcon FileSignatureInfo::getIcon()
         ret = QIcon("://icon/archive.png");
         break;
     default:
+        ret = QIcon("://icon/file.png");
         break;
     }
     return ret;

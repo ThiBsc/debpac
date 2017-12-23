@@ -10,7 +10,7 @@ TreePackageModel::TreePackageModel(QObject *parent)
 {
     // default tree of a debian package
     tree = new Folder("package_name");
-    tree->add(new Folder("DEBIAN"));
+    tree->add(new Folder("DEBIAN")).add(new RealFile("control"));
     tree->add(new Folder("usr")).add(new Folder("bin"));
 }
 
@@ -116,9 +116,19 @@ void TreePackageModel::addFileSignatureInfo(FileSignatureInfo *fsi)
         folder = "usr/bin";
         break;
     case FileSignatureInfo::AUDIO:
-    case FileSignatureInfo::PACKAGE:
+        folder = "usr/share/"+QString(tree->getPath().c_str())+"/sounds";
+        break;
     case FileSignatureInfo::IMAGE:
+        if (QPixmap(fsi->getPath().c_str()).width() == QPixmap(fsi->getPath().c_str()).height()){
+            folder = "usr/share/icons/hicolor/"+QString("%1x%1").arg(QPixmap(fsi->getPath().c_str()).width())+"/apps";
+        } else {
+            folder = "usr/share/"+QString(tree->getPath().c_str())+"/images";
+        }
+        break;
+    case FileSignatureInfo::PACKAGE:
     case FileSignatureInfo::ARCHIVE:
+        folder = "usr/share/"+QString(tree->getPath().c_str());
+        break;
     default:
         break;
     }
@@ -126,7 +136,16 @@ void TreePackageModel::addFileSignatureInfo(FileSignatureInfo *fsi)
         QStringList sl = folder.split("/");
         Folder *f = tree;
         for (QString s : sl){
-            f = f->getChild<Folder*>(s.toStdString());
+            if (Folder *current = f->getChild<Folder*>(s.toStdString())){
+                f = current;
+            } else {
+                int at = f->count(false);
+                beginInsertRows(parentIndex, at, at);
+                Folder *nf = new Folder(s.toStdString());
+                f->add(nf);
+                f = nf;
+                endInsertRows();
+            }
             parentIndex = index(0, 0, parentIndex);
         }
         if (f){
