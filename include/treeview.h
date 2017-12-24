@@ -3,7 +3,7 @@
 
 #include <QTreeView>
 
-class TreePackageModel;
+class TreePackageDragDropModel;
 class FileSignatureInfo;
 
 class TreeView : public QTreeView
@@ -17,7 +17,7 @@ public slots:
     void addFile(FileSignatureInfo *fsi);
 
 private:
-    TreePackageModel *tp_model;
+    TreePackageDragDropModel *tp_model;
 
 };
 

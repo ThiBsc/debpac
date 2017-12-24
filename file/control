@@ -1,0 +1,12 @@
+# Documentation for the control file can be found here:
+# https://manpages.debian.org/jessie/dpkg-dev/index.html
+Package: package_name
+Version: 1.0
+# Section ex: mail, text, net, devel...
+Section: base
+Priority: optional
+Architecture: amd64
+# Depends: bash, qt5-default...
+Maintainer: Firstname Lastname <your@email.com>
+Description: Short description
+ Here, a long description with a space character for each new line.

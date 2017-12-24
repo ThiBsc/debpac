@@ -5,7 +5,8 @@
 
 class QListView;
 class QGridLayout;
-class ListViewDragDrop;
+class QSplitter;
+class TabWidget;
 class TreeView;
 
 namespace Ui {
@@ -23,7 +24,8 @@ public:
 private:
     Ui::MainWindow *ui;
     QGridLayout* gLayout;
-    ListViewDragDrop* listView;
+    QSplitter *splitter;
+    TabWidget *tabWidget;
     TreeView* treeView;
 
 };

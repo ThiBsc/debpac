@@ -1,10 +1,11 @@
 #include "../include/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "../include/listviewdragdrop.h"
 #include "../include/filesignatureinfo.hpp"
 #include "../include/treeview.h"
+#include "../include/tabwidget.h"
 #include <QListView>
 #include <QGridLayout>
+#include <QSplitter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,19 +17,20 @@ MainWindow::MainWindow(QWidget *parent) :
     gLayout = new QGridLayout(ui->centralWidget);
     ui->centralWidget->setLayout(gLayout);
 
-    listView = new ListViewDragDrop(this);
+    splitter = new QSplitter(Qt::Horizontal, this);
+    tabWidget = new TabWidget(this);
     treeView = new TreeView(this);
 
-    gLayout->addWidget(listView, 0, 0);
-    gLayout->addWidget(treeView, 0, 1);
-
-    connect(listView->model(), SIGNAL(fileSignatureInfoAdded(FileSignatureInfo*)), treeView, SLOT(addFile(FileSignatureInfo*)));
+    splitter->addWidget(treeView);
+    splitter->addWidget(tabWidget);
+    gLayout->addWidget(splitter, 0, 0);
 }
 
 MainWindow::~MainWindow()
 {
     delete treeView;
-    delete listView;
+    delete tabWidget;
+    delete splitter;
     delete gLayout;
     delete ui;
 }

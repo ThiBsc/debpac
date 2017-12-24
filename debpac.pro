@@ -16,26 +16,25 @@ TEMPLATE = app
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
-    src/listfilemodel.cpp \
     src/filesignatureinfo.cpp \
-    src/listviewdragdrop.cpp \
     src/treeview.cpp \
-    src/treepackagemodel.cpp \
     src/abstractfile.cpp \
     src/realfile.cpp \
-    src/folder.cpp
+    src/folder.cpp \
+    src/tabwidget.cpp \
+    src/treepackagedrapdropmodel.cpp
 
 HEADERS  += include/mainwindow.h \
-    include/listfilemodel.h \
     include/filesignatureinfo.hpp \
-    include/listviewdragdrop.h \
     include/treeview.h \
-    include/treepackagemodel.h \
     include/abstractfile.h \
     include/realfile.h \
-    include/folder.h
+    include/folder.h \
+    include/tabwidget.h \
+    include/treepackagedragdropmodel.h
 
 FORMS    += mainwindow.ui
 
 RESOURCES += \
-    icon.qrc
+    icon.qrc \
+    default_file.qrc

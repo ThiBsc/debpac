@@ -1,13 +1,15 @@
 #include "../include/treeview.h"
-#include "../include/treepackagemodel.h"
+#include "../include/treepackagedragdropmodel.h"
 #include "../include/filesignatureinfo.hpp"
 
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)
 {
-    tp_model = new TreePackageModel(this);
+    tp_model = new TreePackageDragDropModel(this);
     setModel(tp_model);
-    expandAll();}
+    expandAll();
+    setAcceptDrops(true);
+}
 
 TreeView::~TreeView()
 {
@@ -16,6 +18,6 @@ TreeView::~TreeView()
 
 void TreeView::addFile(FileSignatureInfo *fsi)
 {
-    tp_model->addFileSignatureInfo(fsi);
+    tp_model->addFileInfo(fsi);
 }
 

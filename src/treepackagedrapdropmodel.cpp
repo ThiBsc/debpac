@@ -1,11 +1,13 @@
-#include "../include/treepackagemodel.h"
+#include "../include/treepackagedragdropmodel.h"
 #include "../include/folder.h"
 #include "../include/realfile.h"
 #include "../include/filesignatureinfo.hpp"
 #include <QIcon>
 #include <QFileInfo>
+#include <QMimeData>
+#include <QUrl>
 
-TreePackageModel::TreePackageModel(QObject *parent)
+TreePackageDragDropModel::TreePackageDragDropModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
     // default tree of a debian package
@@ -14,12 +16,12 @@ TreePackageModel::TreePackageModel(QObject *parent)
     tree->add(new Folder("usr")).add(new Folder("bin"));
 }
 
-TreePackageModel::~TreePackageModel()
+TreePackageDragDropModel::~TreePackageDragDropModel()
 {
     delete tree;
 }
 
-QModelIndex TreePackageModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex TreePackageDragDropModel::index(int row, int column, const QModelIndex &parent) const
 {
     QModelIndex ret;
     if (hasIndex(row, column, parent)){
@@ -36,7 +38,7 @@ QModelIndex TreePackageModel::index(int row, int column, const QModelIndex &pare
     return ret;
 }
 
-QModelIndex TreePackageModel::parent(const QModelIndex &index) const
+QModelIndex TreePackageDragDropModel::parent(const QModelIndex &index) const
 {
     QModelIndex ret;
     if (index.isValid()){
@@ -49,7 +51,7 @@ QModelIndex TreePackageModel::parent(const QModelIndex &index) const
     return ret;
 }
 
-QVariant TreePackageModel::data(const QModelIndex &index, int role) const
+QVariant TreePackageDragDropModel::data(const QModelIndex &index, int role) const
 {
     QVariant ret;
     if (index.isValid()){
@@ -67,7 +69,7 @@ QVariant TreePackageModel::data(const QModelIndex &index, int role) const
     return ret;
 }
 
-QVariant TreePackageModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant TreePackageDragDropModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     Q_UNUSED(section);
     QVariant ret;
@@ -83,7 +85,46 @@ QVariant TreePackageModel::headerData(int section, Qt::Orientation orientation, 
     return ret;
 }
 
-int TreePackageModel::rowCount(const QModelIndex &parent) const
+bool TreePackageDragDropModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
+{
+    Q_UNUSED(action);
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+    Q_UNUSED(parent);
+    bool ret = false;
+    if (data->hasUrls()){
+        ret = QFileInfo(data->urls().first().path()).isFile();
+    }
+    return ret;
+}
+
+bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    Q_UNUSED(action);
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+    Q_UNUSED(parent);
+    bool ret = false;
+    FileSignatureInfo *fsi = new FileSignatureInfo(data->urls().first().path().toStdString());
+    int before = tree->count(true);
+    addFileInfo(fsi);
+    if (before < tree->count(true)){
+        ret = true;
+    } else {
+        delete fsi;
+    }
+    return ret;
+}
+
+Qt::ItemFlags TreePackageDragDropModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags ret = QAbstractItemModel::flags(index);
+    if (!index.isValid())
+        ret |= Qt::ItemIsDropEnabled;
+    return ret;
+}
+
+int TreePackageDragDropModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     int ret = 0;
@@ -101,13 +142,13 @@ int TreePackageModel::rowCount(const QModelIndex &parent) const
     return ret;
 }
 
-int TreePackageModel::columnCount(const QModelIndex &parent) const
+int TreePackageDragDropModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 1;
 }
 
-void TreePackageModel::addFileSignatureInfo(FileSignatureInfo *fsi)
+void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
 {
     QModelIndex parentIndex = index(0);
     QString folder;
@@ -157,13 +198,13 @@ void TreePackageModel::addFileSignatureInfo(FileSignatureInfo *fsi)
     }
 }
 
-QVariant TreePackageModel::displayRole(const QModelIndex &index) const
+QVariant TreePackageDragDropModel::displayRole(const QModelIndex &index) const
 {
     QString ret = QString(static_cast<AbstractFile*>(index.internalPointer())->getPath().c_str());
     return ret;
 }
 
-QVariant TreePackageModel::decorationRole(const QModelIndex &index) const
+QVariant TreePackageDragDropModel::decorationRole(const QModelIndex &index) const
 {
     QIcon ret;
     AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
