@@ -1,4 +1,5 @@
 #include "../include/tabwidget.h"
+#include "../include/syntaxhighlighter.h"
 #include <QPlainTextEdit>
 #include <QTextStream>
 
@@ -11,6 +12,10 @@ TabWidget::TabWidget(QWidget *parent)
 TabWidget::~TabWidget()
 {
     clear();
+
+    for (SyntaxHighLighter *shl : highlighters){
+        delete shl;
+    }
     for (QPlainTextEdit *pte : scriptTab){
         delete pte;
     }
@@ -25,6 +30,8 @@ int TabWidget::addScriptEdit(const QString &label)
         QPlainTextEdit *pte = new QPlainTextEdit(this);
         pte->setPlainText(stream.readAll());
         scriptTab.append(pte);
+        SyntaxHighLighter *shl = new SyntaxHighLighter(pte->document());
+        highlighters.append(shl);
         ret = QTabWidget::addTab(pte, label);
     }
     return ret;
@@ -39,6 +46,8 @@ int TabWidget::addScriptEdit(const QIcon &icon, const QString &label)
         QPlainTextEdit *pte = new QPlainTextEdit(this);
         pte->setPlainText(stream.readAll());
         scriptTab.append(pte);
+        SyntaxHighLighter *shl = new SyntaxHighLighter(pte->document());
+        highlighters.append(shl);
         ret = QTabWidget::addTab(pte, icon, label);
     }
     return ret;

@@ -5,6 +5,7 @@
 #include <QList>
 
 class QPlainTextEdit;
+class SyntaxHighLighter;
 
 class TabWidget : public QTabWidget
 {
@@ -16,6 +17,7 @@ public:
 
 private:
     QList<QPlainTextEdit*> scriptTab;
+    QList<SyntaxHighLighter*> highlighters;
 
 };
 

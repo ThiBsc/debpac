@@ -168,9 +168,8 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
         break;
     case FileSignatureInfo::PACKAGE:
     case FileSignatureInfo::ARCHIVE:
-        folder = "usr/share/"+QString(tree->getPath().c_str());
-        break;
     default:
+        folder = "usr/share/"+QString(tree->getPath().c_str());
         break;
     }
     if (!folder.isEmpty()){

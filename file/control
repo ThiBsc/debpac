@@ -8,5 +8,6 @@ Priority: optional
 Architecture: amd64
 # Depends: bash, qt5-default...
 Maintainer: Firstname Lastname <your@email.com>
+Homepage: https://your.com/website
 Description: Short description
  Here, a long description with a space character for each new line.

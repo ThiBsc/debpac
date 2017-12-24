@@ -22,7 +22,8 @@ SOURCES += src/main.cpp\
     src/realfile.cpp \
     src/folder.cpp \
     src/tabwidget.cpp \
-    src/treepackagedrapdropmodel.cpp
+    src/treepackagedrapdropmodel.cpp \
+    src/syntaxhighlighter.cpp
 
 HEADERS  += include/mainwindow.h \
     include/filesignatureinfo.hpp \
@@ -31,7 +32,8 @@ HEADERS  += include/mainwindow.h \
     include/realfile.h \
     include/folder.h \
     include/tabwidget.h \
-    include/treepackagedragdropmodel.h
+    include/treepackagedragdropmodel.h \
+    include/syntaxhighlighter.h
 
 FORMS    += mainwindow.ui
 
