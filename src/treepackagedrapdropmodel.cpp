@@ -1,7 +1,7 @@
-#include "../include/treepackagedragdropmodel.h"
-#include "../include/folder.h"
-#include "../include/realfile.h"
-#include "../include/filesignatureinfo.hpp"
+#include "treepackagedragdropmodel.h"
+#include "folder.h"
+#include "realfile.h"
+#include "filesignatureinfo.hpp"
 #include <QIcon>
 #include <QFileInfo>
 #include <QMimeData>

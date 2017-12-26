@@ -25,18 +25,18 @@ SOURCES += src/main.cpp\
     src/treepackagedrapdropmodel.cpp \
     src/syntaxhighlighter.cpp
 
-HEADERS  += include/mainwindow.h \
-    include/filesignatureinfo.hpp \
-    include/treeview.h \
-    include/abstractfile.h \
-    include/realfile.h \
-    include/folder.h \
-    include/tabwidget.h \
-    include/treepackagedragdropmodel.h \
-    include/syntaxhighlighter.h
+HEADERS  += src/mainwindow.h \
+    src/filesignatureinfo.hpp \
+    src/treeview.h \
+    src/abstractfile.h \
+    src/realfile.h \
+    src/folder.h \
+    src/tabwidget.h \
+    src/treepackagedragdropmodel.h \
+    src/syntaxhighlighter.h
 
 FORMS    += mainwindow.ui
 
 RESOURCES += \
-    icon.qrc \
-    default_file.qrc
+    qrc/icon.qrc \
+    qrc/default_file.qrc

@@ -1,4 +1,4 @@
-#include "../include/syntaxhighlighter.h"
+#include "syntaxhighlighter.h"
 #include <QRegularExpressionMatchIterator>
 
 SyntaxHighLighter::SyntaxHighLighter(QTextDocument *parent)

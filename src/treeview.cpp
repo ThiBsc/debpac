@@ -1,6 +1,6 @@
-#include "../include/treeview.h"
-#include "../include/treepackagedragdropmodel.h"
-#include "../include/filesignatureinfo.hpp"
+#include "treeview.h"
+#include "treepackagedragdropmodel.h"
+#include "filesignatureinfo.hpp"
 
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)

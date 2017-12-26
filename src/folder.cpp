@@ -1,5 +1,5 @@
-#include "../include/folder.h"
-#include "../include/realfile.h"
+#include "folder.h"
+#include "realfile.h"
 
 Folder::Folder(const std::string &path)
     : AbstractFile(path)

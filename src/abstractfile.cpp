@@ -1,4 +1,4 @@
-#include "../include/abstractfile.h"
+#include "abstractfile.h"
 
 AbstractFile::AbstractFile(const std::string &path, AbstractFile *parent)
 {

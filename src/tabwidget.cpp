@@ -1,5 +1,5 @@
-#include "../include/tabwidget.h"
-#include "../include/syntaxhighlighter.h"
+#include "tabwidget.h"
+#include "syntaxhighlighter.h"
 #include <QPlainTextEdit>
 #include <QTextStream>
 

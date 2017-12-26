@@ -1,8 +1,8 @@
-#include "../include/mainwindow.h"
+#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "../include/filesignatureinfo.hpp"
-#include "../include/treeview.h"
-#include "../include/tabwidget.h"
+#include "filesignatureinfo.hpp"
+#include "treeview.h"
+#include "tabwidget.h"
 #include <QListView>
 #include <QGridLayout>
 #include <QSplitter>
@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
     splitter->addWidget(treeView);
     splitter->addWidget(tabWidget);
     gLayout->addWidget(splitter, 0, 0);
+
+    splitter->setStretchFactor(1, 2);
+    resize(700, 400);
 }
 
 MainWindow::~MainWindow()

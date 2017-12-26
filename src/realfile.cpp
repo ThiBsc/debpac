@@ -1,5 +1,5 @@
-#include "../include/realfile.h"
-#include "../include/filesignatureinfo.hpp"
+#include "realfile.h"
+#include "filesignatureinfo.hpp"
 
 RealFile::RealFile(const std::string &path, FileSignatureInfo *fsi)
     : AbstractFile(path)
