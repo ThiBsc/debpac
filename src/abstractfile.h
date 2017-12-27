@@ -7,16 +7,16 @@ class AbstractFile
 {
 
 public:
-    AbstractFile(const std::string& path, AbstractFile *parent = nullptr);
+    AbstractFile(const std::string& name, AbstractFile *parent = nullptr);
     virtual ~AbstractFile() = 0;
-    std::string getPath();
+    std::string getName();
     bool hasParent();
     AbstractFile *getParent();
     void setParent(AbstractFile *parent);
 
 protected:
     AbstractFile *parent;
-    std::string path;
+    std::string name;
 };
 
 #endif // ABSTRACTFILE_H

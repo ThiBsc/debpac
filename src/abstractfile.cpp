@@ -1,8 +1,8 @@
 #include "abstractfile.h"
 
-AbstractFile::AbstractFile(const std::string &path, AbstractFile *parent)
+AbstractFile::AbstractFile(const std::string &name, AbstractFile *parent)
 {
-    this->path = path;
+    this->name = name;
     this->parent = parent;
 }
 
@@ -11,9 +11,9 @@ AbstractFile::~AbstractFile()
 
 }
 
-std::string AbstractFile::getPath()
+std::string AbstractFile::getName()
 {
-    return this->path;
+    return this->name;
 }
 
 bool AbstractFile::hasParent()

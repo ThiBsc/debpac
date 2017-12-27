@@ -10,12 +10,13 @@ class Folder : public AbstractFile
 {
 
 public:
-    Folder(const std::string& path);
+    Folder(const std::string& name);
     ~Folder();
     Folder& add(Folder* file);
     void add(RealFile* file);
     int count(bool recursive);
-    void renameFolder(const std::string& name, bool recursive);
+    bool containFolder(const std::string& name, bool recursive);
+    void renameFolder(const std::string& oldname, const std::string& name, bool recursive);
     AbstractFile *child(int row);
     template<class T>
     T getChild(std::string name)
@@ -23,7 +24,7 @@ public:
         T ret = nullptr;
         for (AbstractFile *af : tree){
             if(T f = dynamic_cast<T>(af)) {
-               if (af->getPath() == name){
+               if (af->getName() == name){
                    ret = f;
                    break;
                }

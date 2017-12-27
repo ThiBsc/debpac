@@ -76,7 +76,7 @@ QVariant TreePackageDragDropModel::headerData(int section, Qt::Orientation orien
     if (orientation == Qt::Horizontal){
         switch (role) {
         case Qt::DisplayRole:
-            ret = QString("Package name: %1").arg(tree->getPath().c_str());
+            ret = QString("Package name: %1").arg(tree->getName().c_str());
             break;
         default:
             break;
@@ -157,19 +157,19 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
         folder = "usr/bin";
         break;
     case FileSignatureInfo::AUDIO:
-        folder = "usr/share/"+QString(tree->getPath().c_str())+"/sounds";
+        folder = "usr/share/"+QString(tree->getName().c_str())+"/sounds";
         break;
     case FileSignatureInfo::IMAGE:
         if (QPixmap(fsi->getPath().c_str()).width() == QPixmap(fsi->getPath().c_str()).height()){
             folder = "usr/share/icons/hicolor/"+QString("%1x%1").arg(QPixmap(fsi->getPath().c_str()).width())+"/apps";
         } else {
-            folder = "usr/share/"+QString(tree->getPath().c_str())+"/images";
+            folder = "usr/share/"+QString(tree->getName().c_str())+"/images";
         }
         break;
     case FileSignatureInfo::PACKAGE:
     case FileSignatureInfo::ARCHIVE:
     default:
-        folder = "usr/share/"+QString(tree->getPath().c_str());
+        folder = "usr/share/"+QString(tree->getName().c_str());
         break;
     }
     if (!folder.isEmpty()){
@@ -199,13 +199,13 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
 
 void TreePackageDragDropModel::changePackageName(const QString &pname)
 {
-    tree->renameFolder(pname.toStdString(), true);
+    tree->renameFolder(tree->getName(), pname.toStdString(), true);
     emit headerDataChanged(Qt::Horizontal, 0, 0);
 }
 
 QVariant TreePackageDragDropModel::displayRole(const QModelIndex &index) const
 {
-    QString ret = QString(static_cast<AbstractFile*>(index.internalPointer())->getPath().c_str());
+    QString ret = QString(static_cast<AbstractFile*>(index.internalPointer())->getName().c_str());
     return ret;
 }
 

@@ -1,8 +1,8 @@
 #include "realfile.h"
 #include "filesignatureinfo.hpp"
 
-RealFile::RealFile(const std::string &path, FileSignatureInfo *fsi)
-    : AbstractFile(path)
+RealFile::RealFile(const std::string &name, FileSignatureInfo *fsi)
+    : AbstractFile(name)
 {
     this->fsi = fsi;
     if (this->fsi == nullptr){

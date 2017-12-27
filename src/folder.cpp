@@ -1,8 +1,8 @@
 #include "folder.h"
 #include "realfile.h"
 
-Folder::Folder(const std::string &path)
-    : AbstractFile(path)
+Folder::Folder(const std::string &name)
+    : AbstractFile(name)
 {
 
 }
@@ -40,18 +40,35 @@ int Folder::count(bool recursive)
     return ret;
 }
 
-void Folder::renameFolder(const std::string &name, bool recursive)
+bool Folder::containFolder(const std::string &name, bool recursive)
 {
-    const std::string old_path = path;
-    path = name;
+    bool ret = false;
+    for (AbstractFile *af : tree){
+        if(Folder* f = dynamic_cast<Folder*>(af)) {
+           if (name == f->getName())
+               ret = true;
+           if (!ret && recursive)
+               ret = f->containFolder(name, recursive);
+        }
+        if (ret)
+            break;
+    }
+    return ret;
+}
+
+void Folder::renameFolder(const std::string &oldname, const std::string &name, bool recursive)
+{
+    if (oldname == getName())
+        this->name = name;
     if (recursive){
-        /*for (AbstractFile *af : tree){
+        for (AbstractFile *af : tree){
             if(Folder* f = dynamic_cast<Folder*>(af)) {
-               if (old_path == f->getPath()){
-                   f->renameFolder(name, recursive);
-               }
+               if (f->containFolder(oldname, recursive))
+                   f->renameFolder(oldname, name, recursive);
+               else if (oldname == f->getName())
+                   f->renameFolder(oldname, name, false);
             }
-        }*/
+        }
     }
 }
 
