@@ -6,7 +6,7 @@
 class QListView;
 class QGridLayout;
 class QSplitter;
-class TabWidget;
+class ScripEditorTabWidget;
 class TreeView;
 
 namespace Ui {
@@ -25,7 +25,7 @@ private:
     Ui::MainWindow *ui;
     QGridLayout* gLayout;
     QSplitter *splitter;
-    TabWidget *tabWidget;
+    ScripEditorTabWidget *tabWidget;
     TreeView* treeView;
 
 };

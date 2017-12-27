@@ -40,6 +40,21 @@ int Folder::count(bool recursive)
     return ret;
 }
 
+void Folder::renameFolder(const std::string &name, bool recursive)
+{
+    const std::string old_path = path;
+    path = name;
+    if (recursive){
+        /*for (AbstractFile *af : tree){
+            if(Folder* f = dynamic_cast<Folder*>(af)) {
+               if (old_path == f->getPath()){
+                   f->renameFolder(name, recursive);
+               }
+            }
+        }*/
+    }
+}
+
 AbstractFile *Folder::child(int row)
 {
     return tree.at(row);

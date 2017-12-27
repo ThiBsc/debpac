@@ -21,9 +21,12 @@ SOURCES += src/main.cpp\
     src/abstractfile.cpp \
     src/realfile.cpp \
     src/folder.cpp \
-    src/tabwidget.cpp \
     src/treepackagedrapdropmodel.cpp \
-    src/syntaxhighlighter.cpp
+    src/syntaxhighlighter.cpp \
+    src/scripteditortabwidget.cpp \
+    src/linenumberarea.cpp \
+    src/codeeditor.cpp \
+    src/controlfileeditor.cpp
 
 HEADERS  += src/mainwindow.h \
     src/filesignatureinfo.hpp \
@@ -31,12 +34,15 @@ HEADERS  += src/mainwindow.h \
     src/abstractfile.h \
     src/realfile.h \
     src/folder.h \
-    src/tabwidget.h \
     src/treepackagedragdropmodel.h \
-    src/syntaxhighlighter.h
+    src/syntaxhighlighter.h \
+    src/scripteditortabwidget.h \
+    src/linenumberarea.h \
+    src/codeeditor.h \
+    src/controlfileeditor.h
 
 FORMS    += mainwindow.ui
 
 RESOURCES += \
-    qrc/icon.qrc \
-    qrc/default_file.qrc
+    icon.qrc \
+    default_file.qrc

@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include "filesignatureinfo.hpp"
 #include "treeview.h"
-#include "tabwidget.h"
+#include "scripteditortabwidget.h"
+#include "controlfileeditor.h"
 #include <QListView>
 #include <QGridLayout>
 #include <QSplitter>
@@ -18,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->centralWidget->setLayout(gLayout);
 
     splitter = new QSplitter(Qt::Horizontal, this);
-    tabWidget = new TabWidget(this);
+    tabWidget = new ScripEditorTabWidget(this);
     treeView = new TreeView(this);
 
     splitter->addWidget(treeView);
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     splitter->setStretchFactor(1, 2);
     resize(700, 400);
+
+    connect(tabWidget->getControlFile(), SIGNAL(packageNameChanged(QString)), treeView->model(), SLOT(changePackageName(QString)));
 }
 
 MainWindow::~MainWindow()

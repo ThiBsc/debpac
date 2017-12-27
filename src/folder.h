@@ -15,6 +15,7 @@ public:
     Folder& add(Folder* file);
     void add(RealFile* file);
     int count(bool recursive);
+    void renameFolder(const std::string& name, bool recursive);
     AbstractFile *child(int row);
     template<class T>
     T getChild(std::string name)

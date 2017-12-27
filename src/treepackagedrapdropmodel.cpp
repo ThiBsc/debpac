@@ -197,6 +197,12 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
     }
 }
 
+void TreePackageDragDropModel::changePackageName(const QString &pname)
+{
+    tree->renameFolder(pname.toStdString(), true);
+    emit headerDataChanged(Qt::Horizontal, 0, 0);
+}
+
 QVariant TreePackageDragDropModel::displayRole(const QModelIndex &index) const
 {
     QString ret = QString(static_cast<AbstractFile*>(index.internalPointer())->getPath().c_str());

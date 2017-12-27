@@ -24,6 +24,9 @@ public:
     virtual int	columnCount(const QModelIndex &parent = QModelIndex()) const;
     void addFileInfo(FileSignatureInfo *fsi);
 
+public slots:
+    void changePackageName(const QString &pname);
+
 private:
     virtual QVariant displayRole(const QModelIndex &index) const;
     virtual QVariant decorationRole(const QModelIndex &index) const;
