@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=%1
+Type=Application
+Name=%2
+GenericName=%2
+Comment=%3
+Exec=%4
+Terminal=false
+MimeType=text/plain;
+Icon=%5
+Categories=Development;
+StartupNotify=true
