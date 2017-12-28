@@ -1,2 +1,42 @@
 # debpac
-A debian package creator assistant
+A debian package creator assistant. [![Build Status](https://travis-ci.org/thibDev/debpac.svg?branch=master)](https://travis-ci.org/thibDev/debpac)
+
+## Development status
+
+Features | State
+------------ | -------------
+Drag & Drop | ![progress](http://progressed.io/bar/100)
+Rename package name | ![progress](http://progressed.io/bar/80)
+Change package version | ![progress](http://progressed.io/bar/100)
+Add postinst/preinst script | ![progress](http://progressed.io/bar/0)
+Add postrm/prerm script | ![progress](http://progressed.io/bar/0)
+Add .desktop file | ![progress](http://progressed.io/bar/0)
+Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/33)
+Reorganise tree | ![progress](http://progressed.io/bar/0)
+Type of file recognise by hex signature | ![progress](http://progressed.io/bar/60)
+Save package project | ![progress](http://progressed.io/bar/0)
+
+First release progress ![progress](http://progressed.io/bar/37)
+
+### Current preview
+![progress](preview/debpac.png)
+
+## How to use (in coming)
+
+...
+
+## Example of use (in coming)
+...
+
+### Support development :+1:
+
+Star the project :star:
+
+### Credits
+
+Icons | Author
+------------ | -------------
+binary.png<br>file.png | Icon made by Freepik<br>https://www.flaticon.com/authors/freepik
+audio.png<br>package.png<br>image.png | Icon made by Buddhe<br>https://www.flaticon.com/authors/pixel-buddha
+archive.png | Icon made by Roundicons<br>https://www.flaticon.com/authors/roundicons
+folder.png | Icon made by Smashicons from<br>https://www.flaticon.com/authors/smashicons
