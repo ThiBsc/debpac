@@ -8,15 +8,15 @@ Features | State
 Drag & Drop | ![progress](http://progressed.io/bar/100)
 Rename package name | ![progress](http://progressed.io/bar/80)
 Change package version | ![progress](http://progressed.io/bar/100)
-Add postinst/preinst script | ![progress](http://progressed.io/bar/0)
-Add postrm/prerm script | ![progress](http://progressed.io/bar/0)
-Add .desktop file | ![progress](http://progressed.io/bar/0)
+Add postinst/preinst script | ![progress](http://progressed.io/bar/10)
+Add postrm/prerm script | ![progress](http://progressed.io/bar/10)
+Add .desktop file | ![progress](http://progressed.io/bar/10)
 Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/33)
 Reorganise tree | ![progress](http://progressed.io/bar/0)
 Type of file recognise by hex signature | ![progress](http://progressed.io/bar/60)
 Save package project | ![progress](http://progressed.io/bar/0)
 
-First release progress ![progress](http://progressed.io/bar/37)
+First release progress ![progress](http://progressed.io/bar/40)
 
 ### Current preview
 ![progress](preview/debpac.png)
