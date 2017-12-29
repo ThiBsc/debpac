@@ -7,5 +7,10 @@
         <file>icon/archive.png</file>
         <file>icon/folder.png</file>
         <file>icon/file.png</file>
+        <file>icon/diskette.png</file>
+        <file>icon/generate.png</file>
+        <file>icon/add_script.png</file>
+        <file>icon/about.png</file>
+        <file>icon/credits.png</file>
     </qresource>
 </RCC>

@@ -36,7 +36,7 @@ Star the project :star:
 
 Icons | Author
 ------------ | -------------
-binary.png<br>file.png | Icon made by Freepik<br>https://www.flaticon.com/authors/freepik
-audio.png<br>package.png<br>image.png | Icon made by Buddhe<br>https://www.flaticon.com/authors/pixel-buddha
-archive.png | Icon made by Roundicons<br>https://www.flaticon.com/authors/roundicons
-folder.png | Icon made by Smashicons from<br>https://www.flaticon.com/authors/smashicons
+binary<br>file<br>diskette<br>generate<br>add_script<br>about<br>credits | Icon made by Freepik<br>https://www.flaticon.com/authors/freepik
+audio<br>package<br>image | Icon made by Buddhe<br>https://www.flaticon.com/authors/pixel-buddha
+archive | Icon made by Roundicons<br>https://www.flaticon.com/authors/roundicons
+folder | Icon made by Smashicons from<br>https://www.flaticon.com/authors/smashicons

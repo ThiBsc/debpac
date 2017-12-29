@@ -26,7 +26,9 @@ SOURCES += src/main.cpp\
     src/scripteditortabwidget.cpp \
     src/linenumberarea.cpp \
     src/codeeditor.cpp \
-    src/controlfileeditor.cpp
+    src/controlfileeditor.cpp \
+    src/menufile.cpp \
+    src/menuhelp.cpp
 
 HEADERS  += src/mainwindow.h \
     src/filesignatureinfo.hpp \
@@ -39,7 +41,9 @@ HEADERS  += src/mainwindow.h \
     src/scripteditortabwidget.h \
     src/linenumberarea.h \
     src/codeeditor.h \
-    src/controlfileeditor.h
+    src/controlfileeditor.h \
+    src/menufile.h \
+    src/menuhelp.h
 
 FORMS    += mainwindow.ui
 

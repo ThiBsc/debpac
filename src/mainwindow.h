@@ -8,6 +8,8 @@ class QGridLayout;
 class QSplitter;
 class ScripEditorTabWidget;
 class TreeView;
+class MenuFile;
+class MenuHelp;
 
 namespace Ui {
 class MainWindow;
@@ -23,10 +25,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QGridLayout* gLayout;
+    MenuFile *menuFile;
+    MenuHelp *menuHelp;
+
+    QGridLayout *gLayout;
     QSplitter *splitter;
     ScripEditorTabWidget *tabWidget;
-    TreeView* treeView;
+    TreeView *treeView;
 
 };
 
