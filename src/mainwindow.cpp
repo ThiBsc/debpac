@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget *parent) :
     resize(700, 400);
 
     connect(tabWidget->getControlFile(), SIGNAL(packageNameChanged(QString)), treeView->model(), SLOT(changePackageName(QString)));
+    connect(menuFile, SIGNAL(wantScript(QString)), tabWidget, SLOT(addScriptEdit(QString)));
+    connect(menuFile, SIGNAL(wantScript(QString)), treeView->model(), SLOT(addScriptFile(QString)));
 }
 
 MainWindow::~MainWindow()

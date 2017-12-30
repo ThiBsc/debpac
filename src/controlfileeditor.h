@@ -3,6 +3,8 @@
 
 #include "codeeditor.h"
 
+class SyntaxHighLighter;
+
 class ControlFileEditor : public CodeEditor
 {
     Q_OBJECT
@@ -16,6 +18,10 @@ public slots:
 signals:
     void packageNameChanged(const QString &pname);
     void versionChanged(const QString &version);
+
+private:
+    SyntaxHighLighter *highlighter;
+
 };
 
 #endif // CONTROLFILEEDITOR_H

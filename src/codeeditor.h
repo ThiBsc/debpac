@@ -3,8 +3,6 @@
 
 #include <QPlainTextEdit>
 
-class SyntaxHighLighter;
-
 /**
  * @brief The CodeEditor class
  * http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
@@ -31,7 +29,6 @@ private slots:
 
 private:
     QWidget *lineNumberArea;
-    SyntaxHighLighter *highlighter;
     bool activeHighlight;
 
 };

@@ -1,14 +1,13 @@
 #include "codeeditor.h"
-#include "syntaxhighlighter.h"
 #include "linenumberarea.h"
 #include <QPainter>
+#include <QTextBlock>
 
 CodeEditor::CodeEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     activeHighlight = true;
     lineNumberArea = new LineNumberArea(this);
-    highlighter = new SyntaxHighLighter(document());
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
     connect(this, SIGNAL(updateRequest(QRect,int)), this, SLOT(updateLineNumberArea(QRect,int)));
@@ -20,7 +19,6 @@ CodeEditor::CodeEditor(QWidget *parent)
 
 CodeEditor::~CodeEditor()
 {
-    delete highlighter;
     delete lineNumberArea;
 }
 

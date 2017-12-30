@@ -8,7 +8,7 @@ SyntaxHighLighter::SyntaxHighLighter(QTextDocument *parent)
 
     keysFormat.setForeground(Qt::darkGreen);
     keysFormat.setFontWeight(QFont::Bold);
-    rule.pattern = QRegularExpression("^\\w+");
+    rule.pattern = QRegularExpression("^\\w+:");
     rule.format = keysFormat;
     highlightingRules.append(rule);
 

@@ -197,6 +197,19 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
     }
 }
 
+void TreePackageDragDropModel::addScriptFile(const QString &name)
+{
+    Folder *debian = tree->getChild<Folder*>("DEBIAN");
+    if (debian){
+        if (!debian->containFile(name.toStdString())){
+            int at = debian->count(false);
+            beginInsertRows(index(1), at, at);
+            debian->add(new RealFile(name.toStdString()));
+            endInsertRows();
+        }
+    }
+}
+
 void TreePackageDragDropModel::changePackageName(const QString &pname)
 {
     tree->renameFolder(tree->getName(), pname.toStdString(), true);

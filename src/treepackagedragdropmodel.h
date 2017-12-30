@@ -25,6 +25,7 @@ public:
     void addFileInfo(FileSignatureInfo *fsi);
 
 public slots:
+    void addScriptFile(const QString& name);
     void changePackageName(const QString &pname);
 
 private:

@@ -17,6 +17,19 @@ MenuFile::~MenuFile()
     clear();
 }
 
+void MenuFile::actionScriptTriggered()
+{
+    QObject *action = QObject::sender();
+    if (action == actionPostinst)
+        emit wantScript("postinst");
+    else if (action == actionPreinst)
+        emit wantScript("preinst");
+    else if (action == actionPostrm)
+        emit wantScript("postrm");
+    else if (action == actionPrerm)
+        emit wantScript("prerm");
+}
+
 void MenuFile::init()
 {
     setTitle("File");
@@ -29,4 +42,9 @@ void MenuFile::init()
     actionGeneratePackage = addAction(QIcon("://icon/generate.png"), "Generate package");
     addSeparator();
     actionSavePackageProject = addAction(QIcon("://icon/diskette.png"), "Save config");
+
+    connect(actionPostinst, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
+    connect(actionPreinst, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
+    connect(actionPostrm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
+    connect(actionPrerm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
 }

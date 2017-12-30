@@ -56,6 +56,20 @@ bool Folder::containFolder(const std::string &name, bool recursive)
     return ret;
 }
 
+bool Folder::containFile(const std::string &name)
+{
+    bool ret = false;
+    for (AbstractFile *af : tree){
+        if(RealFile* f = dynamic_cast<RealFile*>(af)) {
+           if (name == f->getName())
+               ret = true;
+        }
+        if (ret)
+            break;
+    }
+    return ret;
+}
+
 void Folder::renameFolder(const std::string &oldname, const std::string &name, bool recursive)
 {
     if (oldname == getName())

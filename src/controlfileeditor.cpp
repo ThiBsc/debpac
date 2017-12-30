@@ -1,4 +1,5 @@
 #include "controlfileeditor.h"
+#include "syntaxhighlighter.h"
 #include <QTextBlock>
 #include <QRegularExpression>
 
@@ -8,11 +9,13 @@ ControlFileEditor::ControlFileEditor(QWidget *parent)
     connect(this, SIGNAL(textChanged()), this, SLOT(infoIsEdited()));
     showLineNumber(false);
     showHighlightLine(false);
+
+    highlighter = new SyntaxHighLighter(document());
 }
 
 ControlFileEditor::~ControlFileEditor()
-{
-
+{    
+    delete highlighter;
 }
 
 void ControlFileEditor::infoIsEdited()

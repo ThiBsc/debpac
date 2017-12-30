@@ -5,10 +5,17 @@
 
 class MenuFile : public QMenu
 {
+    Q_OBJECT
 public:
     MenuFile(QWidget *parent = Q_NULLPTR);
     MenuFile(const QString &title, QWidget *parent = Q_NULLPTR);
     ~MenuFile();
+
+signals:
+    void wantScript(const QString&);
+
+private slots:
+    void actionScriptTriggered();
 
 private:
     void init();

@@ -30,13 +30,18 @@ ScripEditorTabWidget::~ScripEditorTabWidget()
 int ScripEditorTabWidget::addScriptEdit(const QString &label)
 {
     int ret = -1;
-    QFile file("://file/"+label);
-    if (file.open(QFile::ReadOnly | QFile::Text)){
-        QTextStream stream(&file);
-        CodeEditor *ce = new CodeEditor(this);
-        ce->setPlainText(stream.readAll());
-        scriptTab.append(ce);
-        ret = QTabWidget::addTab(ce, label);
+    int idx = getIndexByName(label);
+    if (idx != -1){
+        setCurrentIndex(idx);
+    } else {
+        QFile file("://file/"+label);
+        if (file.open(QFile::ReadOnly | QFile::Text)){
+            QTextStream stream(&file);
+            CodeEditor *ce = new CodeEditor(this);
+            ce->setPlainText(stream.readAll());
+            scriptTab.append(ce);
+            ret = QTabWidget::addTab(ce, label);
+        }
     }
     return ret;
 }
@@ -44,13 +49,28 @@ int ScripEditorTabWidget::addScriptEdit(const QString &label)
 int ScripEditorTabWidget::addScriptEdit(const QIcon &icon, const QString &label)
 {
     int ret = -1;
-    QFile file("://file/"+label);
-    if (file.open(QFile::ReadOnly | QFile::Text)){
-        QTextStream stream(&file);
-        CodeEditor *ce = new CodeEditor(this);
-        ce->setPlainText(stream.readAll());
-        scriptTab.append(ce);
-        ret = QTabWidget::addTab(ce, icon, label);
+    int idx = getIndexByName(label);
+    if (idx != -1){
+        setCurrentIndex(idx);
+    } else {
+        QFile file("://file/"+label);
+        if (file.open(QFile::ReadOnly | QFile::Text)){
+            QTextStream stream(&file);
+            CodeEditor *ce = new CodeEditor(this);
+            ce->setPlainText(stream.readAll());
+            scriptTab.append(ce);
+            ret = QTabWidget::addTab(ce, icon, label);
+        }
+    }
+    return ret;
+}
+
+int ScripEditorTabWidget::getIndexByName(const QString &name)
+{
+    int ret = -1;
+    for (int i=0; i<count() && ret==-1; i++){
+        if (name == tabText(i))
+            ret = i;
     }
     return ret;
 }
