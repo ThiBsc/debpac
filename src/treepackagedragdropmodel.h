@@ -26,7 +26,11 @@ public:
 
 public slots:
     void addScriptFile(const QString& name);
+    void addDesktopFile(const QString& name);
     void changePackageName(const QString &pname);
+
+signals:
+    void changeDesktopTab(const QString &oldname, const QString &newname);
 
 private:
     virtual QVariant displayRole(const QModelIndex &index) const;

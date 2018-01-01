@@ -13,9 +13,11 @@ public:
 
 signals:
     void wantScript(const QString&);
+    void wantDesktop(const QString&);
 
 private slots:
     void actionScriptTriggered();
+    void actionDesktopTriggered();
 
 private:
     void init();
@@ -25,6 +27,7 @@ private:
     QAction *actionPostrm;
     QAction *actionPrerm;
 
+    QAction *actionDesktop;
     QAction *actionGeneratePackage;
     QAction *actionSavePackageProject;
 

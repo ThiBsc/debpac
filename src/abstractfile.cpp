@@ -30,3 +30,8 @@ void AbstractFile::setParent(AbstractFile *parent)
 {
     this->parent = parent;
 }
+
+void AbstractFile::setName(const std::string &name)
+{
+    this->name = name;
+}

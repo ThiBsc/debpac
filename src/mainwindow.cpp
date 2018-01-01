@@ -41,6 +41,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(tabWidget->getControlFile(), SIGNAL(packageNameChanged(QString)), treeView->model(), SLOT(changePackageName(QString)));
     connect(menuFile, SIGNAL(wantScript(QString)), tabWidget, SLOT(addScriptEdit(QString)));
     connect(menuFile, SIGNAL(wantScript(QString)), treeView->model(), SLOT(addScriptFile(QString)));
+    connect(menuFile, SIGNAL(wantDesktop(QString)), tabWidget, SLOT(addDesktopEdit()));
+    connect(menuFile, SIGNAL(wantDesktop(QString)), treeView->model(), SLOT(addDesktopFile(QString)));
+    connect(treeView->model(), SIGNAL(changeDesktopTab(QString, QString)), tabWidget, SLOT(renameDesktopTab(QString,QString)));
 }
 
 MainWindow::~MainWindow()

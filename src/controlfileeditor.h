@@ -11,6 +11,8 @@ class ControlFileEditor : public CodeEditor
 public:
     ControlFileEditor(QWidget *parent = Q_NULLPTR);
     ~ControlFileEditor();
+    QString getPackageName() const;
+    QString getVersion() const;
 
 public slots:
     void infoIsEdited();
@@ -20,6 +22,8 @@ signals:
     void versionChanged(const QString &version);
 
 private:
+    QString packageName;
+    QString version;
     SyntaxHighLighter *highlighter;
 
 };

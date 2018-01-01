@@ -210,8 +210,42 @@ void TreePackageDragDropModel::addScriptFile(const QString &name)
     }
 }
 
+void TreePackageDragDropModel::addDesktopFile(const QString &name)
+{
+    Q_UNUSED(name);
+    QModelIndex parentIndex = index(0);
+    QString folder = "usr/share/applications";
+    QStringList sl = folder.split("/");
+    Folder *f = tree;
+    for (QString s : sl){
+        if (Folder *current = f->getChild<Folder*>(s.toStdString())){
+            f = current;
+        } else {
+            int at = f->count(false);
+            beginInsertRows(parentIndex, at, at);
+            Folder *nf = new Folder(s.toStdString());
+            f->add(nf);
+            f = nf;
+            endInsertRows();
+        }
+        parentIndex = index(0, 0, parentIndex);
+    }
+    if (f && !f->containFile(tree->getName()+".desktop")){
+        int at = f->count(false);
+        beginInsertRows(parentIndex, at, at);
+        f->add(new RealFile(tree->getName()+".desktop"));
+        endInsertRows();
+    }
+}
+
 void TreePackageDragDropModel::changePackageName(const QString &pname)
 {
+    if (Folder *apps_folder = tree->containFolder("applications", true)){
+        if (RealFile *desktop = apps_folder->containFile(tree->getName()+".desktop")){
+            desktop->setName(pname.toStdString()+".desktop");
+            emit changeDesktopTab(tree->getName().c_str(), pname);
+        }
+    }
     tree->renameFolder(tree->getName(), pname.toStdString(), true);
     emit headerDataChanged(Qt::Horizontal, 0, 0);
 }

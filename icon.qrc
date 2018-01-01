@@ -12,5 +12,6 @@
         <file>icon/add_script.png</file>
         <file>icon/about.png</file>
         <file>icon/credits.png</file>
+        <file>icon/desktop.png</file>
     </qresource>
 </RCC>

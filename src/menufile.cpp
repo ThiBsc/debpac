@@ -30,6 +30,11 @@ void MenuFile::actionScriptTriggered()
         emit wantScript("prerm");
 }
 
+void MenuFile::actionDesktopTriggered()
+{
+    emit wantDesktop("program.desktop");
+}
+
 void MenuFile::init()
 {
     setTitle("File");
@@ -39,6 +44,7 @@ void MenuFile::init()
     actionPostrm = menuScript->addAction("postrm");;
     actionPrerm = menuScript->addAction("prerm");;
 
+    actionDesktop = addAction(QIcon("://icon/desktop.png"), "Add .desktop file");
     actionGeneratePackage = addAction(QIcon("://icon/generate.png"), "Generate package");
     addSeparator();
     actionSavePackageProject = addAction(QIcon("://icon/diskette.png"), "Save config");
@@ -47,4 +53,5 @@ void MenuFile::init()
     connect(actionPreinst, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionPostrm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionPrerm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
+    connect(actionDesktop, SIGNAL(triggered(bool)), this, SLOT(actionDesktopTriggered()));
 }

@@ -19,6 +19,9 @@ public:
 public slots:
     int addScriptEdit(const QString &label);
     int addScriptEdit(const QIcon &icon, const QString &label);
+    int addDesktopEdit();
+    int addDesktopEdit(const QIcon &icon);
+    void renameDesktopTab(const QString &oldname, const QString &newname);
 
 private:
     int getIndexByName(const QString& name);

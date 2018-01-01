@@ -13,6 +13,7 @@ public:
     bool hasParent();
     AbstractFile *getParent();
     void setParent(AbstractFile *parent);
+    void setName(const std::string& name);
 
 protected:
     AbstractFile *parent;

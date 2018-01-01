@@ -40,13 +40,13 @@ int Folder::count(bool recursive)
     return ret;
 }
 
-bool Folder::containFolder(const std::string &name, bool recursive)
+Folder *Folder::containFolder(const std::string &name, bool recursive)
 {
-    bool ret = false;
+    Folder *ret = nullptr;
     for (AbstractFile *af : tree){
         if(Folder* f = dynamic_cast<Folder*>(af)) {
            if (name == f->getName())
-               ret = true;
+               ret = f;
            if (!ret && recursive)
                ret = f->containFolder(name, recursive);
         }
@@ -56,13 +56,13 @@ bool Folder::containFolder(const std::string &name, bool recursive)
     return ret;
 }
 
-bool Folder::containFile(const std::string &name)
+RealFile *Folder::containFile(const std::string &name)
 {
-    bool ret = false;
+    RealFile *ret = nullptr;
     for (AbstractFile *af : tree){
         if(RealFile* f = dynamic_cast<RealFile*>(af)) {
            if (name == f->getName())
-               ret = true;
+               ret = f;
         }
         if (ret)
             break;

@@ -65,6 +65,58 @@ int ScripEditorTabWidget::addScriptEdit(const QIcon &icon, const QString &label)
     return ret;
 }
 
+int ScripEditorTabWidget::addDesktopEdit()
+{
+    int ret = -1;
+    if (controlFile){
+        const QString label = controlFile->getPackageName()+".desktop";
+        int idx = getIndexByName(label);
+        if (idx != -1){
+            setCurrentIndex(idx);
+        } else {
+            QFile file("://file/program.desktop");
+            if (file.open(QFile::ReadOnly | QFile::Text)){
+                QTextStream stream(&file);
+                CodeEditor *ce = new CodeEditor(this);
+                ce->setPlainText(stream.readAll());
+                scriptTab.append(ce);
+                ret = QTabWidget::addTab(ce, label);
+            }
+        }
+    }
+    return ret;
+}
+
+int ScripEditorTabWidget::addDesktopEdit(const QIcon &icon)
+{
+    int ret = -1;
+    if (controlFile){
+        const QString label = controlFile->getPackageName()+".desktop";
+        int idx = getIndexByName(label);
+        if (idx != -1){
+            setCurrentIndex(idx);
+        } else {
+            QFile file("://file/program.desktop");
+            if (file.open(QFile::ReadOnly | QFile::Text)){
+                QTextStream stream(&file);
+                CodeEditor *ce = new CodeEditor(this);
+                ce->setPlainText(stream.readAll());
+                scriptTab.append(ce);
+                ret = QTabWidget::addTab(ce, icon, label);
+            }
+        }
+    }
+    return ret;
+}
+
+void ScripEditorTabWidget::renameDesktopTab(const QString &oldname, const QString &newname)
+{
+    int idx = getIndexByName(oldname+".desktop");
+    if (idx != -1){
+        setTabText(idx, newname+".desktop");
+    }
+}
+
 int ScripEditorTabWidget::getIndexByName(const QString &name)
 {
     int ret = -1;
