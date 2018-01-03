@@ -13,6 +13,8 @@ public:
     ~ControlFileEditor();
     QString getPackageName() const;
     QString getVersion() const;
+    void setPackageName(const QString& pname);
+    void setVersion(const QString& v);
 
 public slots:
     void infoIsEdited();

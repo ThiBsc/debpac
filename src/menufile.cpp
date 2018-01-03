@@ -40,6 +40,11 @@ void MenuFile::actionSavePackageProjectTriggered()
     emit savePackageProject();
 }
 
+void MenuFile::actionImportPackageProjectTriggered()
+{
+    emit importPackageProject();
+}
+
 void MenuFile::init()
 {
     setTitle("File");
@@ -53,6 +58,7 @@ void MenuFile::init()
     actionGeneratePackage = addAction(QIcon("://icon/generate.png"), "Generate package");
     addSeparator();
     actionSavePackageProject = addAction(QIcon("://icon/diskette.png"), "Save config");
+    actionImportPackageProject = addAction(QIcon("://icon/import.png"), "Import config");
 
     connect(actionPostinst, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionPreinst, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
@@ -61,4 +67,5 @@ void MenuFile::init()
     connect(actionDesktop, SIGNAL(triggered(bool)), this, SLOT(actionDesktopTriggered()));
 
     connect(actionSavePackageProject, SIGNAL(triggered(bool)), this, SLOT(actionSavePackageProjectTriggered()));
+    connect(actionImportPackageProject, SIGNAL(triggered(bool)), this, SLOT(actionImportPackageProjectTriggered()));
 }

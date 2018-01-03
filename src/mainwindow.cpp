@@ -15,6 +15,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -52,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(treeView->model(), SIGNAL(changeDesktopTab(QString, QString)), tabWidget, SLOT(renameDesktopTab(QString,QString)));
 
     connect(menuFile, SIGNAL(savePackageProject()), this, SLOT(saveToJson()));
+    connect(menuFile, SIGNAL(importPackageProject()), this, SLOT(restoreFromJson()));
 }
 
 MainWindow::~MainWindow()
@@ -81,24 +83,73 @@ void MainWindow::saveToJson()
     }
     mainInfo.insert("script", scriptObject);
 
-    /*QJsonObject treeObject;
+    QJsonObject treeObject;
     auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
     for (RealFile *rf : treeModel->getFileFromUser()){
         QString treePath;
-        AbstractFile *parent = rf;
+        AbstractFile *parent = rf->getParent();
         while (parent->getParent() != nullptr){
-            treePath.prepend(QString(parent->getParent()->getName().c_str())+"/");
+            treePath.prepend(QString(parent->getName().c_str())+"/");
             parent = parent->getParent();
         }
         treePath.chop(1); // remove last '/'
-        treeObject.insert(treePath, rf->getFileSignatureInfo().getPath().c_str());
+        treeObject.insert(treePath, QJsonValue::fromVariant(rf->getFileSignatureInfo().getPath().c_str()));
     }
-    mainInfo.insert("tree", treeObject);*/
+    mainInfo.insert("tree", treeObject);
 
     QJsonDocument jsonDoc(mainInfo);
     QFile file(tabWidget->getControlFile()->getPackageName()+"-"+tabWidget->getControlFile()->getVersion()+".json");
     if (file.open(QIODevice::WriteOnly)){
         file.write(jsonDoc.toJson());
         file.close();
+    }
+}
+
+void MainWindow::restoreFromJson()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Load file"), QString(), tr("Json files (*.json);;All files (*.*)"));
+    if (!fileName.isNull()){
+        QFile file(fileName);
+        if (file.open(QIODevice::ReadOnly)){
+            QJsonDocument json_doc(QJsonDocument::fromJson(file.readAll()));
+            file.close();
+            if (!json_doc.isNull()){
+                QJsonObject json_obj = json_doc.object();
+                if (!json_obj.isEmpty()){
+                    const QString package = json_obj.take("package").toString();
+                    const QString version = json_obj.take("version").toString();
+                    const QString control = json_obj.take("control").toString();
+                    tabWidget->getControlFile()->setPackageName(package);
+                    tabWidget->getControlFile()->setVersion(version);
+                    tabWidget->getControlFile()->setPlainText(control);
+
+                    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
+                    QJsonObject scripts = json_obj.take("script").toObject();
+                    for (QString key : scripts.keys()){
+                        int tab_idx = -1;
+                        if (key.contains(".desktop")){
+                            tab_idx = tabWidget->addDesktopEdit();
+                            treeModel->addDesktopFile(key);
+                        } else {
+                            tab_idx = tabWidget->addScriptEdit(key);
+                            treeModel->addScriptFile(key);
+                        }
+                        if (tab_idx)
+                            dynamic_cast<CodeEditor*>(tabWidget->widget(tab_idx))->setPlainText(scripts.take(key).toString());
+                    }
+
+                    QJsonObject tree = json_obj.take("tree").toObject();
+                    for (QString key : tree.keys()){
+                        const QString file_info = tree.take(key).toString();
+                        FileSignatureInfo *fsi = new FileSignatureInfo(file_info.toStdString());
+                        if (fsi->getCategory() == FileSignatureInfo::INEXISTANT){
+                            delete fsi;
+                        } else {
+                            treeModel->addFileInfo(key, fsi);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -201,6 +201,34 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
     }
 }
 
+void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInfo *fsi)
+{
+    QModelIndex parentIndex = index(0);
+    QStringList sl = path.split("/");
+    Folder *f = tree;
+    for (QString s : sl){
+        if (Folder *current = f->getChild<Folder*>(s.toStdString())){
+            f = current;
+        } else {
+            int at = f->count(false);
+            beginInsertRows(parentIndex, at, at);
+            Folder *nf = new Folder(s.toStdString());
+            f->add(nf);
+            f = nf;
+            endInsertRows();
+        }
+        parentIndex = index(0, 0, parentIndex);
+    }
+    if (f){
+        int at = f->count(false);
+        beginInsertRows(parentIndex, at, at);
+        RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), fsi);
+        f->add(rf);
+        fileFromUser.append(rf);;
+        endInsertRows();
+    }
+}
+
 QList<RealFile *> TreePackageDragDropModel::getFileFromUser()
 {
     return fileFromUser;

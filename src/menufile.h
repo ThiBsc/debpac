@@ -15,11 +15,13 @@ signals:
     void wantScript(const QString&);
     void wantDesktop(const QString&);
     void savePackageProject();
+    void importPackageProject();
 
 private slots:
     void actionScriptTriggered();
     void actionDesktopTriggered();
     void actionSavePackageProjectTriggered();
+    void actionImportPackageProjectTriggered();
 
 private:
     void init();
@@ -32,6 +34,7 @@ private:
     QAction *actionDesktop;
     QAction *actionGeneratePackage;
     QAction *actionSavePackageProject;
+    QAction *actionImportPackageProject;
 
 };
 

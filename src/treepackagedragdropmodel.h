@@ -24,6 +24,7 @@ public:
     virtual int	rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual int	columnCount(const QModelIndex &parent = QModelIndex()) const;
     void addFileInfo(FileSignatureInfo *fsi);
+    void addFileInfo(const QString& path, FileSignatureInfo *fsi);
     QList<RealFile *> getFileFromUser();
 
 public slots:

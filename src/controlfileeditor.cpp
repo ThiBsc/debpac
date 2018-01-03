@@ -30,6 +30,18 @@ QString ControlFileEditor::getVersion() const
     return version;
 }
 
+void ControlFileEditor::setPackageName(const QString &pname)
+{
+    packageName = pname;
+    emit packageNameChanged(packageName);
+}
+
+void ControlFileEditor::setVersion(const QString &v)
+{
+    version = v;
+    emit versionChanged(version);
+}
+
 void ControlFileEditor::infoIsEdited()
 {
     QTextBlock txtBlock = document()->findBlockByNumber(textCursor().blockNumber());

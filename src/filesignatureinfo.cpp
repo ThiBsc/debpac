@@ -57,6 +57,7 @@ void FileSignatureInfo::set_file(std::string path)
         find_info();
     } else {
         this->description = "Can't open file";
+        this->category = INEXISTANT;
     }
 }
 

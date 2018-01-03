@@ -20,7 +20,7 @@ class FileSignatureInfo
 public:
   FileSignatureInfo (std::string path);
   virtual ~FileSignatureInfo ();
-  enum Category { UNKNOW=0, BINARY, IMAGE, TEXT, AUDIO, PACKAGE, ARCHIVE };
+  enum Category { UNKNOW=0, BINARY, IMAGE, TEXT, AUDIO, PACKAGE, ARCHIVE, INEXISTANT };
 
   void set_file(std::string path);
 
