@@ -14,6 +14,7 @@ class TreePackageDragDropModel : public QAbstractItemModel
 public:
     TreePackageDragDropModel(QObject *parent = Q_NULLPTR);
     ~TreePackageDragDropModel();
+    void resetToDefault();
     virtual QModelIndex	index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex	parent(const QModelIndex &index) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;

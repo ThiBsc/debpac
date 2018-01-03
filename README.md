@@ -14,11 +14,11 @@ Add .desktop file | ![progress](http://progressed.io/bar/80)
 Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/33)
 Reorganise tree | ![progress](http://progressed.io/bar/0)
 Type of file recognise by hex signature | ![progress](http://progressed.io/bar/60)
-Save package project | ![progress](http://progressed.io/bar/70)
-Restore package project | ![progress](http://progressed.io/bar/60)
+Save package project | ![progress](http://progressed.io/bar/100)
+Restore package project | ![progress](http://progressed.io/bar/100)
 Generate package | ![progress](http://progressed.io/bar/0)
 
-First release progress ![progress](http://progressed.io/bar/65)
+First release progress ![progress](http://progressed.io/bar/68)
 
 ### Current preview
 ![progress](preview/debpac.png)

@@ -23,8 +23,21 @@ ScripEditorTabWidget::~ScripEditorTabWidget()
     for (CodeEditor *ce : scriptTab){
         delete ce;
     }
+    scriptTab.clear();
     if (controlFile)
         delete controlFile;
+}
+
+void ScripEditorTabWidget::resetToDefault()
+{
+    for (CodeEditor *ce : scriptTab){
+        int tab = indexOf(ce);
+        if (tab != -1){
+            removeTab(tab);
+            delete ce;
+        }
+    }
+    scriptTab.clear();
 }
 
 int ScripEditorTabWidget::addScriptEdit(const QString &label)
@@ -78,7 +91,14 @@ int ScripEditorTabWidget::addDesktopEdit()
             if (file.open(QFile::ReadOnly | QFile::Text)){
                 QTextStream stream(&file);
                 CodeEditor *ce = new CodeEditor(this);
-                ce->setPlainText(stream.readAll());
+                QString desktop_file = stream.readAll();
+                ce->setPlainText(
+                            desktop_file.arg(
+                                controlFile->getVersion(),
+                                controlFile->getPackageName(),
+                                "/usr/bin/"+controlFile->getPackageName()
+                                )
+                            );
                 scriptTab.append(ce);
                 ret = QTabWidget::addTab(ce, label);
             }
@@ -100,7 +120,14 @@ int ScripEditorTabWidget::addDesktopEdit(const QIcon &icon)
             if (file.open(QFile::ReadOnly | QFile::Text)){
                 QTextStream stream(&file);
                 CodeEditor *ce = new CodeEditor(this);
-                ce->setPlainText(stream.readAll());
+                QString desktop_file = stream.readAll();
+                ce->setPlainText(
+                            desktop_file.arg(
+                                controlFile->getVersion(),
+                                controlFile->getPackageName(),
+                                "/usr/bin/"+controlFile->getPackageName()
+                                )
+                            );
                 scriptTab.append(ce);
                 ret = QTabWidget::addTab(ce, icon, label);
             }

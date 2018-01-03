@@ -14,6 +14,7 @@ class ScripEditorTabWidget : public QTabWidget
 public:
     ScripEditorTabWidget(QWidget *parent = Q_NULLPTR);
     ~ScripEditorTabWidget();
+    void resetToDefault();
     ControlFileEditor *getControlFile();
     QList<CodeEditor *> getScriptTabs();
 

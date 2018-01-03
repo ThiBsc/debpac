@@ -23,6 +23,17 @@ TreePackageDragDropModel::~TreePackageDragDropModel()
     fileFromUser.clear();
 }
 
+void TreePackageDragDropModel::resetToDefault()
+{
+    beginResetModel();
+    delete tree;
+    fileFromUser.clear();
+    tree = new Folder("package_name");
+    tree->add(new Folder("DEBIAN")).add(new RealFile("control"));
+    tree->add(new Folder("usr")).add(new Folder("bin"));
+    endResetModel();
+}
+
 QModelIndex TreePackageDragDropModel::index(int row, int column, const QModelIndex &parent) const
 {
     QModelIndex ret;

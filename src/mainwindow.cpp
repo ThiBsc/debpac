@@ -69,39 +69,45 @@ MainWindow::~MainWindow()
 
 void MainWindow::saveToJson()
 {
-    QJsonObject mainInfo;
-    mainInfo.insert("package", QJsonValue::fromVariant(tabWidget->getControlFile()->getPackageName()));
-    mainInfo.insert("version", QJsonValue::fromVariant(tabWidget->getControlFile()->getVersion()));
-    mainInfo.insert("control", QJsonValue::fromVariant(tabWidget->getControlFile()->toPlainText()));
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save state"),
+                                                    tabWidget->getControlFile()->getPackageName()+"-"+tabWidget->getControlFile()->getVersion()+".json",
+                                                    tr("Json file (*.json)"));
+    if (!fileName.isNull()){
+        QJsonObject mainInfo;
+        mainInfo.insert("package", QJsonValue::fromVariant(tabWidget->getControlFile()->getPackageName()));
+        mainInfo.insert("version", QJsonValue::fromVariant(tabWidget->getControlFile()->getVersion()));
+        mainInfo.insert("control", QJsonValue::fromVariant(tabWidget->getControlFile()->toPlainText()));
 
-    QJsonObject scriptObject;
-    for (CodeEditor *ce : tabWidget->getScriptTabs()){
-        int idx = tabWidget->indexOf(ce);
-        if (idx != -1){
-            scriptObject.insert(tabWidget->tabText(idx), QJsonValue::fromVariant(ce->toPlainText()));
+        QJsonObject scriptObject;
+        for (CodeEditor *ce : tabWidget->getScriptTabs()){
+            int idx = tabWidget->indexOf(ce);
+            if (idx != -1){
+                scriptObject.insert(tabWidget->tabText(idx), QJsonValue::fromVariant(ce->toPlainText()));
+            }
         }
-    }
-    mainInfo.insert("script", scriptObject);
+        mainInfo.insert("script", scriptObject);
 
-    QJsonObject treeObject;
-    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
-    for (RealFile *rf : treeModel->getFileFromUser()){
-        QString treePath;
-        AbstractFile *parent = rf->getParent();
-        while (parent->getParent() != nullptr){
-            treePath.prepend(QString(parent->getName().c_str())+"/");
-            parent = parent->getParent();
+        QJsonObject treeObject;
+        auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
+        for (RealFile *rf : treeModel->getFileFromUser()){
+            QString treePath;
+            AbstractFile *parent = rf->getParent();
+            while (parent->getParent() != nullptr){
+                treePath.prepend(QString(parent->getName().c_str())+"/");
+                parent = parent->getParent();
+            }
+            treePath.chop(1); // remove last '/'
+            treeObject.insert(treePath, QJsonValue::fromVariant(rf->getFileSignatureInfo().getPath().c_str()));
         }
-        treePath.chop(1); // remove last '/'
-        treeObject.insert(treePath, QJsonValue::fromVariant(rf->getFileSignatureInfo().getPath().c_str()));
-    }
-    mainInfo.insert("tree", treeObject);
+        mainInfo.insert("tree", treeObject);
 
-    QJsonDocument jsonDoc(mainInfo);
-    QFile file(tabWidget->getControlFile()->getPackageName()+"-"+tabWidget->getControlFile()->getVersion()+".json");
-    if (file.open(QIODevice::WriteOnly)){
-        file.write(jsonDoc.toJson());
-        file.close();
+        QJsonDocument jsonDoc(mainInfo);
+        QFile file(fileName);
+        if (file.open(QIODevice::WriteOnly)){
+            file.write(jsonDoc.toJson());
+            file.close();
+        }
     }
 }
 
@@ -116,6 +122,11 @@ void MainWindow::restoreFromJson()
             if (!json_doc.isNull()){
                 QJsonObject json_obj = json_doc.object();
                 if (!json_obj.isEmpty()){
+                    // the file and content will be ok... reset before import
+                    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
+                    treeModel->resetToDefault();
+                    tabWidget->resetToDefault();
+
                     const QString package = json_obj.take("package").toString();
                     const QString version = json_obj.take("version").toString();
                     const QString control = json_obj.take("control").toString();
@@ -123,7 +134,6 @@ void MainWindow::restoreFromJson()
                     tabWidget->getControlFile()->setVersion(version);
                     tabWidget->getControlFile()->setPlainText(control);
 
-                    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
                     QJsonObject scripts = json_obj.take("script").toObject();
                     for (QString key : scripts.keys()){
                         int tab_idx = -1;
@@ -148,6 +158,7 @@ void MainWindow::restoreFromJson()
                             treeModel->addFileInfo(key, fsi);
                         }
                     }
+                    treeView->expandAll();
                 }
             }
         }
