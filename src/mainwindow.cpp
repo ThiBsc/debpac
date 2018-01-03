@@ -81,7 +81,7 @@ void MainWindow::saveToJson()
     }
     mainInfo.insert("script", scriptObject);
 
-    QJsonObject treeObject;
+    /*QJsonObject treeObject;
     auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
     for (RealFile *rf : treeModel->getFileFromUser()){
         QString treePath;
@@ -93,7 +93,7 @@ void MainWindow::saveToJson()
         treePath.chop(1); // remove last '/'
         treeObject.insert(treePath, rf->getFileSignatureInfo().getPath().c_str());
     }
-    mainInfo.insert("tree", treeObject);
+    mainInfo.insert("tree", treeObject);*/
 
     QJsonDocument jsonDoc(mainInfo);
     QFile file(tabWidget->getControlFile()->getPackageName()+"-"+tabWidget->getControlFile()->getVersion()+".json");
