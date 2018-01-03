@@ -19,6 +19,8 @@ TreePackageDragDropModel::TreePackageDragDropModel(QObject *parent)
 TreePackageDragDropModel::~TreePackageDragDropModel()
 {
     delete tree;
+    // all the RealFile* contained in the list are already deleted by the "delete tree;"
+    fileFromUser.clear();
 }
 
 QModelIndex TreePackageDragDropModel::index(int row, int column, const QModelIndex &parent) const
@@ -191,10 +193,17 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
         if (f){
             int at = f->count(false);
             beginInsertRows(parentIndex, at, at);
-            f->add(new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), fsi));
+            RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), fsi);
+            f->add(rf);
+            fileFromUser.append(rf);;
             endInsertRows();
         }
     }
+}
+
+QList<RealFile *> TreePackageDragDropModel::getFileFromUser()
+{
+    return fileFromUser;
 }
 
 void TreePackageDragDropModel::addScriptFile(const QString &name)

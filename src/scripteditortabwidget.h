@@ -15,6 +15,7 @@ public:
     ScripEditorTabWidget(QWidget *parent = Q_NULLPTR);
     ~ScripEditorTabWidget();
     ControlFileEditor *getControlFile();
+    QList<CodeEditor *> getScriptTabs();
 
 public slots:
     int addScriptEdit(const QString &label);

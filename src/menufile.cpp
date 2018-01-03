@@ -35,6 +35,11 @@ void MenuFile::actionDesktopTriggered()
     emit wantDesktop("program.desktop");
 }
 
+void MenuFile::actionSavePackageProjectTriggered()
+{
+    emit savePackageProject();
+}
+
 void MenuFile::init()
 {
     setTitle("File");
@@ -54,4 +59,6 @@ void MenuFile::init()
     connect(actionPostrm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionPrerm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionDesktop, SIGNAL(triggered(bool)), this, SLOT(actionDesktopTriggered()));
+
+    connect(actionSavePackageProject, SIGNAL(triggered(bool)), this, SLOT(actionSavePackageProjectTriggered()));
 }

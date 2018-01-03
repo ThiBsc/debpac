@@ -23,6 +23,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void saveToJson();
+
 private:
     Ui::MainWindow *ui;
     MenuFile *menuFile;

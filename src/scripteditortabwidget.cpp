@@ -131,3 +131,8 @@ ControlFileEditor *ScripEditorTabWidget::getControlFile()
 {
     return controlFile;
 }
+
+QList<CodeEditor *> ScripEditorTabWidget::getScriptTabs()
+{
+    return scriptTab;
+}

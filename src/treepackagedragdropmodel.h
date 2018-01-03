@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 
 class Folder;
+class RealFile;
 class FileSignatureInfo;
 
 class TreePackageDragDropModel : public QAbstractItemModel
@@ -23,6 +24,7 @@ public:
     virtual int	rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual int	columnCount(const QModelIndex &parent = QModelIndex()) const;
     void addFileInfo(FileSignatureInfo *fsi);
+    QList<RealFile *> getFileFromUser();
 
 public slots:
     void addScriptFile(const QString& name);
@@ -36,6 +38,7 @@ private:
     virtual QVariant displayRole(const QModelIndex &index) const;
     virtual QVariant decorationRole(const QModelIndex &index) const;
     Folder *tree;
+    QList<RealFile*> fileFromUser;
 
 };
 

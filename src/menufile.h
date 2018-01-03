@@ -14,10 +14,12 @@ public:
 signals:
     void wantScript(const QString&);
     void wantDesktop(const QString&);
+    void savePackageProject();
 
 private slots:
     void actionScriptTriggered();
     void actionDesktopTriggered();
+    void actionSavePackageProjectTriggered();
 
 private:
     void init();
