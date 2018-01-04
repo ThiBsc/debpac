@@ -17,6 +17,8 @@
 #include <QJsonDocument>
 #include <QFileDialog>
 
+const QString MainWindow::version = "0.68";
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)

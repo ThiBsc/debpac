@@ -61,19 +61,9 @@ int ScripEditorTabWidget::addScriptEdit(const QString &label)
 
 int ScripEditorTabWidget::addScriptEdit(const QIcon &icon, const QString &label)
 {
-    int ret = -1;
-    int idx = getIndexByName(label);
-    if (idx != -1){
-        setCurrentIndex(idx);
-    } else {
-        QFile file("://file/"+label);
-        if (file.open(QFile::ReadOnly | QFile::Text)){
-            QTextStream stream(&file);
-            CodeEditor *ce = new CodeEditor(this);
-            ce->setPlainText(stream.readAll());
-            scriptTab.append(ce);
-            ret = QTabWidget::addTab(ce, icon, label);
-        }
+    int ret = addScriptEdit(label);
+    if (ret != -1){
+        setTabIcon(ret, icon);
     }
     return ret;
 }
@@ -109,29 +99,9 @@ int ScripEditorTabWidget::addDesktopEdit()
 
 int ScripEditorTabWidget::addDesktopEdit(const QIcon &icon)
 {
-    int ret = -1;
-    if (controlFile){
-        const QString label = controlFile->getPackageName()+".desktop";
-        int idx = getIndexByName(label);
-        if (idx != -1){
-            setCurrentIndex(idx);
-        } else {
-            QFile file("://file/program.desktop");
-            if (file.open(QFile::ReadOnly | QFile::Text)){
-                QTextStream stream(&file);
-                CodeEditor *ce = new CodeEditor(this);
-                QString desktop_file = stream.readAll();
-                ce->setPlainText(
-                            desktop_file.arg(
-                                controlFile->getVersion(),
-                                controlFile->getPackageName(),
-                                "/usr/bin/"+controlFile->getPackageName()
-                                )
-                            );
-                scriptTab.append(ce);
-                ret = QTabWidget::addTab(ce, icon, label);
-            }
-        }
+    int ret = addDesktopEdit();
+    if (ret != -1){
+        setTabIcon(ret, icon);
     }
     return ret;
 }
