@@ -12,8 +12,8 @@ TreePackageDragDropModel::TreePackageDragDropModel(QObject *parent)
 {
     // default tree of a debian package
     tree = new Folder("package_name");
-    tree->add(new Folder("DEBIAN")).add(new RealFile("control"));
-    tree->add(new Folder("usr")).add(new Folder("bin"));
+    tree->add(new Folder("DEBIAN", false)).add(new RealFile("control", false));
+    tree->add(new Folder("usr", false)).add(new Folder("bin", false));
 }
 
 TreePackageDragDropModel::~TreePackageDragDropModel()
@@ -21,6 +21,7 @@ TreePackageDragDropModel::~TreePackageDragDropModel()
     delete tree;
     // all the RealFile* contained in the list are already deleted by the "delete tree;"
     fileFromUser.clear();
+    fileFromProgram.clear();
 }
 
 void TreePackageDragDropModel::resetToDefault()
@@ -29,8 +30,8 @@ void TreePackageDragDropModel::resetToDefault()
     delete tree;
     fileFromUser.clear();
     tree = new Folder("package_name");
-    tree->add(new Folder("DEBIAN")).add(new RealFile("control"));
-    tree->add(new Folder("usr")).add(new Folder("bin"));
+    tree->add(new Folder("DEBIAN", false)).add(new RealFile("control", false));
+    tree->add(new Folder("usr", false)).add(new Folder("bin", false));
     endResetModel();
 }
 
@@ -163,7 +164,6 @@ int TreePackageDragDropModel::columnCount(const QModelIndex &parent) const
 
 void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
 {
-    QModelIndex parentIndex = index(0);
     QString folder;
     switch (fsi->getCategory()) {
     case FileSignatureInfo::BINARY:
@@ -186,35 +186,30 @@ void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
         break;
     }
     if (!folder.isEmpty()){
-        QStringList sl = folder.split("/");
-        Folder *f = tree;
-        for (QString s : sl){
-            if (Folder *current = f->getChild<Folder*>(s.toStdString())){
-                f = current;
-            } else {
-                int at = f->count(false);
-                beginInsertRows(parentIndex, at, at);
-                Folder *nf = new Folder(s.toStdString());
-                f->add(nf);
-                f = nf;
-                endInsertRows();
-            }
-            parentIndex = index(0, 0, parentIndex);
-        }
-        if (f){
-            int at = f->count(false);
-            beginInsertRows(parentIndex, at, at);
-            RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), fsi);
-            f->add(rf);
-            fileFromUser.append(rf);;
-            endInsertRows();
-        }
+        addFileInfo(folder, fsi);
     }
 }
 
 void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInfo *fsi)
 {
     QModelIndex parentIndex = index(0);
+    int renameFolderIndex = -1;
+    switch (fsi->getCategory()) {
+    case FileSignatureInfo::PACKAGE:
+    case FileSignatureInfo::ARCHIVE:
+    case FileSignatureInfo::AUDIO:
+        renameFolderIndex = 2;
+        break;
+    case FileSignatureInfo::IMAGE:
+        if (!(QPixmap(fsi->getPath().c_str()).width() == QPixmap(fsi->getPath().c_str()).height())){
+            renameFolderIndex = 2;
+        }
+        break;
+    case FileSignatureInfo::BINARY:
+    default:
+        break;
+    }
+    int idx = 0;
     QStringList sl = path.split("/");
     Folder *f = tree;
     for (QString s : sl){
@@ -223,17 +218,18 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
         } else {
             int at = f->count(false);
             beginInsertRows(parentIndex, at, at);
-            Folder *nf = new Folder(s.toStdString());
+            Folder *nf = new Folder(s.toStdString(), idx==renameFolderIndex);
             f->add(nf);
             f = nf;
             endInsertRows();
         }
         parentIndex = index(0, 0, parentIndex);
+        idx++;
     }
     if (f){
         int at = f->count(false);
         beginInsertRows(parentIndex, at, at);
-        RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), fsi);
+        RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), false, fsi);
         f->add(rf);
         fileFromUser.append(rf);;
         endInsertRows();
@@ -245,6 +241,16 @@ QList<RealFile *> TreePackageDragDropModel::getFileFromUser()
     return fileFromUser;
 }
 
+QList<RealFile *> TreePackageDragDropModel::getFileFromProgram()
+{
+    return fileFromProgram;
+}
+
+Folder *TreePackageDragDropModel::getRoot()
+{
+    return tree;
+}
+
 void TreePackageDragDropModel::addScriptFile(const QString &name)
 {
     Folder *debian = tree->getChild<Folder*>("DEBIAN");
@@ -252,7 +258,9 @@ void TreePackageDragDropModel::addScriptFile(const QString &name)
         if (!debian->containFile(name.toStdString())){
             int at = debian->count(false);
             beginInsertRows(index(1), at, at);
-            debian->add(new RealFile(name.toStdString()));
+            RealFile *rf = new RealFile(name.toStdString(), false);
+            debian->add(rf);
+            fileFromProgram.append(rf);
             endInsertRows();
         }
     }
@@ -271,7 +279,7 @@ void TreePackageDragDropModel::addDesktopFile(const QString &name)
         } else {
             int at = f->count(false);
             beginInsertRows(parentIndex, at, at);
-            Folder *nf = new Folder(s.toStdString());
+            Folder *nf = new Folder(s.toStdString(), false);
             f->add(nf);
             f = nf;
             endInsertRows();
@@ -281,7 +289,9 @@ void TreePackageDragDropModel::addDesktopFile(const QString &name)
     if (f && !f->containFile(tree->getName()+".desktop")){
         int at = f->count(false);
         beginInsertRows(parentIndex, at, at);
-        f->add(new RealFile(tree->getName()+".desktop"));
+        RealFile *rf = new RealFile(tree->getName()+".desktop", true);
+        f->add(rf);
+        fileFromProgram.append(rf);
         endInsertRows();
     }
 }

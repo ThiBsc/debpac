@@ -1,9 +1,10 @@
 #include "abstractfile.h"
 
-AbstractFile::AbstractFile(const std::string &name, AbstractFile *parent)
+AbstractFile::AbstractFile(const std::string &name, bool canRename, AbstractFile *parent)
 {
     this->name = name;
     this->parent = parent;
+    this->canRename = canRename;
 }
 
 AbstractFile::~AbstractFile()
@@ -33,5 +34,11 @@ void AbstractFile::setParent(AbstractFile *parent)
 
 void AbstractFile::setName(const std::string &name)
 {
-    this->name = name;
+    if (canRename)
+        this->name = name;
+}
+
+void AbstractFile::setCanRename(bool canRename)
+{
+    this->canRename = canRename;
 }

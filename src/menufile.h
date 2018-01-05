@@ -16,12 +16,14 @@ signals:
     void wantDesktop(const QString&);
     void savePackageProject();
     void importPackageProject();
+    void wantGeneratePackage();
 
 private slots:
     void actionScriptTriggered();
     void actionDesktopTriggered();
     void actionSavePackageProjectTriggered();
     void actionImportPackageProjectTriggered();
+    void actionGeneratePackageTriggered();
 
 private:
     void init();

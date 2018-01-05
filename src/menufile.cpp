@@ -45,6 +45,11 @@ void MenuFile::actionImportPackageProjectTriggered()
     emit importPackageProject();
 }
 
+void MenuFile::actionGeneratePackageTriggered()
+{
+    emit wantGeneratePackage();
+}
+
 void MenuFile::init()
 {
     setTitle("File");
@@ -66,6 +71,7 @@ void MenuFile::init()
     connect(actionPrerm, SIGNAL(triggered(bool)), this, SLOT(actionScriptTriggered()));
     connect(actionDesktop, SIGNAL(triggered(bool)), this, SLOT(actionDesktopTriggered()));
 
+    connect(actionGeneratePackage, SIGNAL(triggered(bool)), this, SLOT(actionGeneratePackageTriggered()));
     connect(actionSavePackageProject, SIGNAL(triggered(bool)), this, SLOT(actionSavePackageProjectTriggered()));
     connect(actionImportPackageProject, SIGNAL(triggered(bool)), this, SLOT(actionImportPackageProjectTriggered()));
 }

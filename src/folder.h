@@ -10,7 +10,7 @@ class Folder : public AbstractFile
 {
 
 public:
-    Folder(const std::string& name);
+    Folder(const std::string& name, bool canRename = true);
     ~Folder();
     Folder& add(Folder* file);
     void add(RealFile* file);

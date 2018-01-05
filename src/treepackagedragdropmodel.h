@@ -27,6 +27,8 @@ public:
     void addFileInfo(FileSignatureInfo *fsi);
     void addFileInfo(const QString& path, FileSignatureInfo *fsi);
     QList<RealFile *> getFileFromUser();
+    QList<RealFile *> getFileFromProgram();
+    Folder *getRoot();
 
 public slots:
     void addScriptFile(const QString& name);
@@ -41,6 +43,7 @@ private:
     virtual QVariant decorationRole(const QModelIndex &index) const;
     Folder *tree;
     QList<RealFile*> fileFromUser;
+    QList<RealFile*> fileFromProgram;
 
 };
 

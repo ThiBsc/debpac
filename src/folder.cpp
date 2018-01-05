@@ -1,8 +1,8 @@
 #include "folder.h"
 #include "realfile.h"
 
-Folder::Folder(const std::string &name)
-    : AbstractFile(name)
+Folder::Folder(const std::string &name, bool canRename)
+    : AbstractFile(name, canRename)
 {
 
 }
@@ -73,7 +73,7 @@ RealFile *Folder::containFile(const std::string &name)
 void Folder::renameFolder(const std::string &oldname, const std::string &name, bool recursive)
 {
     if (oldname == getName())
-        this->name = name;
+        setName(name);
     if (recursive){
         for (AbstractFile *af : tree){
             if(Folder* f = dynamic_cast<Folder*>(af)) {

@@ -8,7 +8,7 @@ class FileSignatureInfo;
 class RealFile : public AbstractFile
 {
 public:
-    RealFile(const std::string& name, FileSignatureInfo *fsi = nullptr);
+    RealFile(const std::string& name, bool canRename, FileSignatureInfo *fsi = nullptr);
     ~RealFile();
     FileSignatureInfo& getFileSignatureInfo();
 

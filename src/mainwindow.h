@@ -27,6 +27,7 @@ public:
 public slots:
     void saveToJson();
     void restoreFromJson();
+    void generatePackage();
 
 private:
     Ui::MainWindow *ui;

@@ -4,6 +4,7 @@
 #include "treeview.h"
 #include "abstractfile.h"
 #include "realfile.h"
+#include "folder.h"
 #include "treepackagedragdropmodel.h"
 #include "scripteditortabwidget.h"
 #include "controlfileeditor.h"
@@ -54,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuFile, SIGNAL(wantDesktop(QString)), treeView->model(), SLOT(addDesktopFile(QString)));
     connect(treeView->model(), SIGNAL(changeDesktopTab(QString, QString)), tabWidget, SLOT(renameDesktopTab(QString,QString)));
 
+    connect(menuFile, SIGNAL(wantGeneratePackage()), this, SLOT(generatePackage()));
     connect(menuFile, SIGNAL(savePackageProject()), this, SLOT(saveToJson()));
     connect(menuFile, SIGNAL(importPackageProject()), this, SLOT(restoreFromJson()));
 }
@@ -161,6 +163,60 @@ void MainWindow::restoreFromJson()
                         }
                     }
                     treeView->expandAll();
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::generatePackage()
+{
+    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
+    Folder *root = treeModel->getRoot();
+    const QString tmp = QDir::tempPath();
+    QDir dir_package(tmp);
+    if (dir_package.mkdir(root->getName().c_str())){
+        if (dir_package.cd(root->getName().c_str())){
+            // create the control file
+            if (dir_package.mkpath("DEBIAN")){
+                QFile file(dir_package.filePath("DEBIAN/control"));
+                if (file.open(QIODevice::WriteOnly)){
+                    file.write(tabWidget->getControlFile()->toPlainText().toStdString().c_str());
+                    file.close();
+                }
+            }
+            // create the script files
+            QList<RealFile*> files_list = treeModel->getFileFromProgram();
+            for (RealFile *f : files_list){
+                QString fPath;
+                AbstractFile *parent = f->getParent();
+                while (parent->getParent() != nullptr){
+                    fPath.prepend(QString(parent->getName().c_str())+"/");
+                    parent = parent->getParent();
+                }
+                if (dir_package.mkpath(fPath)){
+                    QFile file(dir_package.filePath(fPath+f->getName().c_str()));
+                    if (file.open(QIODevice::WriteOnly)){
+                        int tab_idx = tabWidget->getIndexByName(f->getName().c_str());
+                        if (tab_idx != -1){
+                            file.write(dynamic_cast<CodeEditor*>(tabWidget->widget(tab_idx))->toPlainText().toStdString().c_str());
+                            file.close();
+                        }
+                    }
+                }
+            }
+            // copy the user files
+            files_list = treeModel->getFileFromUser();
+            for (RealFile *f : files_list){
+                QString fPath;
+                AbstractFile *parent = f->getParent();
+                while (parent->getParent() != nullptr){
+                    fPath.prepend(QString(parent->getName().c_str())+"/");
+                    parent = parent->getParent();
+                }
+                if (dir_package.mkpath(fPath)){
+                    const QString origin = f->getFileSignatureInfo().getPath().c_str();
+                    QFile::copy(origin, dir_package.filePath(fPath+QFileInfo(origin).completeBaseName()));
                 }
             }
         }

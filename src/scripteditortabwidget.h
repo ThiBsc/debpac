@@ -17,6 +17,7 @@ public:
     void resetToDefault();
     ControlFileEditor *getControlFile();
     QList<CodeEditor *> getScriptTabs();
+    int getIndexByName(const QString& name);
 
 public slots:
     int addScriptEdit(const QString &label);
@@ -26,7 +27,6 @@ public slots:
     void renameDesktopTab(const QString &oldname, const QString &newname);
 
 private:
-    int getIndexByName(const QString& name);
     ControlFileEditor *controlFile;
     QList<CodeEditor*> scriptTab;
 

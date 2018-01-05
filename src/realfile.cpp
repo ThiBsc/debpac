@@ -1,8 +1,8 @@
 #include "realfile.h"
 #include "filesignatureinfo.hpp"
 
-RealFile::RealFile(const std::string &name, FileSignatureInfo *fsi)
-    : AbstractFile(name)
+RealFile::RealFile(const std::string &name, bool canRename, FileSignatureInfo *fsi)
+    : AbstractFile(name, canRename)
 {
     this->fsi = fsi;
     if (this->fsi == nullptr){
@@ -15,8 +15,7 @@ RealFile::RealFile(const std::string &name, FileSignatureInfo *fsi)
 
 RealFile::~RealFile()
 {
-    if (!fromFileSystem)
-        delete fsi;
+    delete fsi;
 }
 
 FileSignatureInfo &RealFile::getFileSignatureInfo()
