@@ -28,7 +28,8 @@ SOURCES += src/main.cpp\
     src/codeeditor.cpp \
     src/controlfileeditor.cpp \
     src/menufile.cpp \
-    src/menuhelp.cpp
+    src/menuhelp.cpp \
+    src/processdpkgdeb.cpp
 
 HEADERS  += src/mainwindow.h \
     src/filesignatureinfo.hpp \
@@ -43,7 +44,8 @@ HEADERS  += src/mainwindow.h \
     src/codeeditor.h \
     src/controlfileeditor.h \
     src/menufile.h \
-    src/menuhelp.h
+    src/menuhelp.h \
+    src/processdpkgdeb.h
 
 FORMS    += mainwindow.ui
 

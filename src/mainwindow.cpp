@@ -10,6 +10,7 @@
 #include "controlfileeditor.h"
 #include "menufile.h"
 #include "menuhelp.h"
+#include "processdpkgdeb.h"
 #include <QListView>
 #include <QGridLayout>
 #include <QSplitter>
@@ -17,6 +18,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QFileDialog>
+#include <QProcess>
 
 const QString MainWindow::version = "0.68";
 
@@ -169,55 +171,76 @@ void MainWindow::restoreFromJson()
     }
 }
 
+#include <QDebug>
 void MainWindow::generatePackage()
 {
-    auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
-    Folder *root = treeModel->getRoot();
-    const QString tmp = QDir::tempPath();
-    QDir dir_package(tmp);
-    if (dir_package.mkdir(root->getName().c_str())){
-        if (dir_package.cd(root->getName().c_str())){
-            // create the control file
-            if (dir_package.mkpath("DEBIAN")){
-                QFile file(dir_package.filePath("DEBIAN/control"));
-                if (file.open(QIODevice::WriteOnly)){
-                    file.write(tabWidget->getControlFile()->toPlainText().toStdString().c_str());
-                    file.close();
-                }
-            }
-            // create the script files
-            QList<RealFile*> files_list = treeModel->getFileFromProgram();
-            for (RealFile *f : files_list){
-                QString fPath;
-                AbstractFile *parent = f->getParent();
-                while (parent->getParent() != nullptr){
-                    fPath.prepend(QString(parent->getName().c_str())+"/");
-                    parent = parent->getParent();
-                }
-                if (dir_package.mkpath(fPath)){
-                    QFile file(dir_package.filePath(fPath+f->getName().c_str()));
+
+    QString deb_name = tabWidget->getControlFile()->getPackageName() + "-" + tabWidget->getControlFile()->getVersion() + ".deb";
+    deb_name = QFileDialog::getSaveFileName(this, tr("Generate package"), deb_name, tr(".deb file (*.deb)"));
+    if (!deb_name.isNull()){
+        auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
+        Folder *root = treeModel->getRoot();
+        const QString tmp = QDir::tempPath();
+        QDir dir_package(tmp);
+        if (dir_package.mkdir(root->getName().c_str())){
+            if (dir_package.cd(root->getName().c_str())){
+                // create the control file
+                if (dir_package.mkpath("DEBIAN")){
+                    QFile file(dir_package.filePath("DEBIAN/control"));
                     if (file.open(QIODevice::WriteOnly)){
-                        int tab_idx = tabWidget->getIndexByName(f->getName().c_str());
-                        if (tab_idx != -1){
-                            file.write(dynamic_cast<CodeEditor*>(tabWidget->widget(tab_idx))->toPlainText().toStdString().c_str());
-                            file.close();
+                        // the control file has no comment, so remove it
+                        QString clean_control = "";
+                        for (QString line : tabWidget->getControlFile()->toPlainText().split("\n")){
+                            if (!line.startsWith('#'))
+                                clean_control.append(line+"\n");
+                        }
+                        file.write(clean_control.toStdString().c_str());
+                        file.close();
+                    }
+                }
+                // create the script files
+                QList<RealFile*> files_list = treeModel->getFileFromProgram();
+                for (RealFile *f : files_list){
+                    QString fPath;
+                    AbstractFile *parent = f->getParent();
+                    while (parent->getParent() != nullptr){
+                        fPath.prepend(QString(parent->getName().c_str())+"/");
+                        parent = parent->getParent();
+                    }
+                    if (dir_package.mkpath(fPath)){
+                        QFile file(dir_package.filePath(fPath+f->getName().c_str()));
+                        if (file.open(QIODevice::WriteOnly)){
+                            int tab_idx = tabWidget->getIndexByName(f->getName().c_str());
+                            if (tab_idx != -1){
+                                file.write(dynamic_cast<CodeEditor*>(tabWidget->widget(tab_idx))->toPlainText().toStdString().c_str());
+                                file.close();
+                                QProcess *chmod = new QProcess(this);
+                                chmod->start("chmod", QStringList() << "755" << file.fileName());
+                                chmod->waitForFinished(-1);
+                                delete chmod;
+                            }
                         }
                     }
                 }
-            }
-            // copy the user files
-            files_list = treeModel->getFileFromUser();
-            for (RealFile *f : files_list){
-                QString fPath;
-                AbstractFile *parent = f->getParent();
-                while (parent->getParent() != nullptr){
-                    fPath.prepend(QString(parent->getName().c_str())+"/");
-                    parent = parent->getParent();
+                // copy the user files
+                files_list = treeModel->getFileFromUser();
+                for (RealFile *f : files_list){
+                    QString fPath;
+                    AbstractFile *parent = f->getParent();
+                    while (parent->getParent() != nullptr){
+                        fPath.prepend(QString(parent->getName().c_str())+"/");
+                        parent = parent->getParent();
+                    }
+                    if (dir_package.mkpath(fPath)){
+                        const QString origin = f->getFileSignatureInfo().getPath().c_str();
+                        QFile::copy(origin, dir_package.filePath(fPath+QFileInfo(origin).fileName()));
+                    }
                 }
-                if (dir_package.mkpath(fPath)){
-                    const QString origin = f->getFileSignatureInfo().getPath().c_str();
-                    QFile::copy(origin, dir_package.filePath(fPath+QFileInfo(origin).completeBaseName()));
-                }
+                // now generate using dpkg-deb --build package_name
+                ProcessDpkgdeb *dpkg_deb = new ProcessDpkgdeb(this);
+                dpkg_deb->start("gksudo", QStringList() << QString("dpkg-deb --build %1 %2").arg(tmp+"/"+tabWidget->getControlFile()->getPackageName()).arg(deb_name));
+                dpkg_deb->waitForFinished(-1);
+                delete dpkg_deb;
             }
         }
     }
