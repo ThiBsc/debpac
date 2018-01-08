@@ -15,8 +15,8 @@ private slots:
     void needToSendError();
 
 signals:
-    void textFromStandardOutput(const QString& output);
-    void textFromStandardError(const QString& error);
+    void textFromStandardOutput(const QByteArray& output);
+    void textFromStandardError(const QByteArray& error);
 
 };
 

@@ -16,15 +16,11 @@ ProcessDpkgdeb::~ProcessDpkgdeb()
 void ProcessDpkgdeb::needToSendOutput()
 {
     QByteArray std_output = readAllStandardOutput();
-    QString str_output = std_output.toStdString().c_str();
-    qDebug() << str_output;
-    emit textFromStandardOutput(str_output);
+    emit textFromStandardOutput(std_output);
 }
 
 void ProcessDpkgdeb::needToSendError()
 {
     QByteArray std_error = readAllStandardError();
-    QString str_error = std_error.toStdString().c_str();
-    qDebug() << str_error;
-    emit textFromStandardError(str_error);
+    emit textFromStandardError(std_error);
 }
