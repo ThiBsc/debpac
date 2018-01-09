@@ -9,14 +9,14 @@ class ProcessDpkgdeb : public QProcess
 public:
     ProcessDpkgdeb(QObject *parent = Q_NULLPTR);
     ~ProcessDpkgdeb();
+    void generatePackage(const QString& tmpfolder, const QString& outdebian);
 
 private slots:
-    void needToSendOutput();
-    void needToSendError();
+    void commandIsFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
-signals:
-    void textFromStandardOutput(const QByteArray& output);
-    void textFromStandardError(const QByteArray& error);
+private:
+    QString param_folder;
+    QString param_out;
 
 };
 

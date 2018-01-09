@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuBar->addMenu(menuHelp);
     for (QAction *a : menuFile->actions())
         ui->mainToolBar->addAction(a);
+    menuFile->addSeparator();
+    actionQuit = menuFile->addAction("Quit");
 
     gLayout = new QGridLayout(ui->centralWidget);
     ui->centralWidget->setLayout(gLayout);
@@ -60,6 +62,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuFile, SIGNAL(wantGeneratePackage()), this, SLOT(generatePackage()));
     connect(menuFile, SIGNAL(savePackageProject()), this, SLOT(saveToJson()));
     connect(menuFile, SIGNAL(importPackageProject()), this, SLOT(restoreFromJson()));
+    connect(actionQuit, SIGNAL(triggered(bool)), this, SLOT(close()));
 }
 
 MainWindow::~MainWindow()
@@ -68,6 +71,7 @@ MainWindow::~MainWindow()
     delete tabWidget;
     delete splitter;
     delete gLayout;
+    delete actionQuit;
     delete menuFile;
     delete menuHelp;
     delete ui;
@@ -174,7 +178,6 @@ void MainWindow::restoreFromJson()
 #include <QDebug>
 void MainWindow::generatePackage()
 {
-
     QString deb_name = tabWidget->getControlFile()->getPackageName() + "-" + tabWidget->getControlFile()->getVersion() + ".deb";
     deb_name = QFileDialog::getSaveFileName(this, tr("Generate package"), deb_name, tr(".deb file (*.deb)"));
     if (!deb_name.isNull()){
@@ -238,9 +241,11 @@ void MainWindow::generatePackage()
                 }
                 // now generate using dpkg-deb --build package_name
                 ProcessDpkgdeb *dpkg_deb = new ProcessDpkgdeb(this);
-                dpkg_deb->start("gksudo", QStringList() << QString("dpkg-deb --build %1 %2").arg(tmp+"/"+tabWidget->getControlFile()->getPackageName()).arg(deb_name));
+                dpkg_deb->generatePackage(tmp+"/"+tabWidget->getControlFile()->getPackageName(), deb_name);
                 dpkg_deb->waitForFinished(-1);
                 delete dpkg_deb;
+                dir_package.cd(tmp+"/"+tabWidget->getControlFile()->getPackageName());
+                dir_package.removeRecursively();
             }
         }
     }

@@ -31,6 +31,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
+    QAction *actionQuit;
     MenuFile *menuFile;
     MenuHelp *menuHelp;
 

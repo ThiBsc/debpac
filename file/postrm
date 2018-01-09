@@ -1,8 +1,5 @@
 #!/bin/bash
 
-:<<comment
-This script typically modifies links or other files
-associated with foo, and/or removes files created by the package.
-comment
+# Script executed after the deletion
 
 echo "postrm"

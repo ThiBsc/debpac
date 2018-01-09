@@ -27,21 +27,21 @@ void MenuHelp::showAbout()
 void MenuHelp::showCredits()
 {
     const QString credit = "<div><b>Icons from <a href='www.flaticon.com'>flaticon</a></b><div style='text-align:center;'>"
-                           "<p><img src='://icon/binary.png' alt='binary' height='24' width='24'/>, <img src='://icon/file.png' alt='file' height='24' width='24'/>, "
+                           "<table><tr><td><img src='://icon/archive.png' alt='archive' height='24' width='24'/></td>"
+                           "<td>Icon made by <a href='https://www.flaticon.com/authors/roundicons'>Roundicons</a></td></tr>"
+                           "<tr><td><img src='://icon/folder.png' alt='folder' height='24' width='24'/></td>"
+                           "<td>Icon made by <a href='https://www.flaticon.com/authors/smashicons'>Smashicons</a></td></tr>"
+                           "<tr><td><img src='://icon/desktop.png' alt='desktop' height='24' width='24'/></td>"
+                           "<td>Icon made by <a href='https://www.flaticon.com/authors/vectors-market'>vectors Market</a></td></tr>"
+                           "<tr><td><img src='://icon/audio.png' alt='audio' height='24' width='24'/>, <img src='://icon/package.png' alt='package' height='24' width='24'/>, "
+                           "<img src='://icon/image.png' alt='image' height='24' width='24'/></td>"
+                           "<td>Icon made by <a href='https://www.flaticon.com/authors/pixel-buddha'>Pixel Buddha</a></td></tr>"
+                           "<tr><td><img src='://icon/binary.png' alt='binary' height='24' width='24'/>, <img src='://icon/file.png' alt='file' height='24' width='24'/>, "
                            "<img src='://icon/diskette.png' alt='diskette' height='24' width='24'/>, <img src='://icon/generate.png' alt='generate' height='24' width='24'/>, "
                            "<img src='://icon/add_script.png' alt='add_script' height='24' width='24'/>, <img src='://icon/about.png' alt='about' height='24' width='24'/>, "
-                           "<img src='://icon/credits.png' alt='credits' height='24' width='24'/> - <img src='://icon/import.png' alt='import' height='24' width='24'/><br>"
-                           "Icon made by <a href='https://www.flaticon.com/authors/freepik'>Freepik</a></p>"
-                           "<p><img src='://icon/audio.png' alt='audio' height='24' width='24'/>, <img src='://icon/package.png' alt='package' height='24' width='24'/>, "
-                           "<img src='://icon/image.png' alt='image' height='24' width='24'/><br>"
-                           "Icon made by <a href='https://www.flaticon.com/authors/pixel-buddha'>Pixel Buddha</a></p>"
-                           "<p><img src='://icon/archive.png' alt='archive' height='24' width='24'/><br>"
-                           "Icon made by <a href='https://www.flaticon.com/authors/roundicons'>Roundicons</a></p>"
-                           "<p><img src='://icon/folder.png' alt='folder' height='24' width='24'/><br>"
-                           "Icon made by <a href='https://www.flaticon.com/authors/smashicons'>Smashicons</a></p>"
-                           "<p><img src='://icon/desktop.png' alt='desktop' height='24' width='24'/><br>"
-                           "Icon made by <a href='https://www.flaticon.com/authors/vectors-market'>vectors Market</a></p>"
-                           "</div></div>";
+                           "<img src='://icon/credits.png' alt='credits' height='24' width='24'/>, <img src='://icon/import.png' alt='import' height='24' width='24'/></td>"
+                           "<td>Icon made by <a href='https://www.flaticon.com/authors/freepik'>Freepik</a></td></tr>"
+                           "</table></div>";
     QMessageBox::information(parentWidget(), tr("Credits"), credit);
 }
 

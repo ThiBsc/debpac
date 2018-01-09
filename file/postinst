@@ -1,15 +1,5 @@
 #!/bin/bash
 
-:<<comment
-This script typically completes any required configuration
-of the package foo once foo has been unpacked from its
-Debian archive (".deb") file.
-Often, 'postinst' scripts ask users for input, and/or warn them
-that if they accept default values, they should remember to go
-back and re-configure that package as needed.
-Many 'postinst' scripts then execute any commands necessary to
-start or restart a service once a new package has been installed
-or upgraded.
-comment
+# Script executed after the package installation
 
 echo "postinst"
