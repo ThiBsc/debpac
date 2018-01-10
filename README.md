@@ -20,9 +20,25 @@ Generate package | ![progress](http://progressed.io/bar/100)
 
 First release progress ![progress](http://progressed.io/bar/72)
 
+## Requirements
+
+- qt5-default
+- gksu
+
+## Installation
+
+```shell
+git clone https://github.com/thibDev/debpac.git
+cd debpac
+mkdir build
+cd build
+qmake ../debpac.pro
+make && make clean
+```
+
 ## How to use
 
-[![Demo debpac](preview/use_debpac.gif)]
+![Demo debpac](preview/use_debpac.gif)
 
 ### Support development :+1:
 
