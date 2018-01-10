@@ -20,15 +20,9 @@ Generate package | ![progress](http://progressed.io/bar/100)
 
 First release progress ![progress](http://progressed.io/bar/72)
 
-### Current preview
-![progress](preview/debpac.png)
+## How to use
 
-## How to use (in coming)
-
-...
-
-## Example of use (in coming)
-...
+[![Demo debpac](preview/use_debpac.gif)]
 
 ### Support development :+1:
 
