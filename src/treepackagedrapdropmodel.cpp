@@ -198,6 +198,7 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
     case FileSignatureInfo::PACKAGE:
     case FileSignatureInfo::ARCHIVE:
     case FileSignatureInfo::AUDIO:
+    case FileSignatureInfo::UNKNOW:
         renameFolderIndex = 2;
         break;
     case FileSignatureInfo::IMAGE:
@@ -205,7 +206,6 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
             renameFolderIndex = 2;
         }
         break;
-    case FileSignatureInfo::BINARY:
     default:
         break;
     }
