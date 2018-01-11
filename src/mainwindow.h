@@ -6,6 +6,7 @@
 class QListView;
 class QGridLayout;
 class QSplitter;
+class QToolButton;
 class ScripEditorTabWidget;
 class TreeView;
 class MenuFile;
@@ -32,6 +33,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QAction *actionQuit;
+    QToolButton *toolScript;
     MenuFile *menuFile;
     MenuHelp *menuHelp;
 

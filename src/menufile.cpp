@@ -17,6 +17,11 @@ MenuFile::~MenuFile()
     clear();
 }
 
+QMenu *MenuFile::getMenuScript()
+{
+    return menuScript;
+}
+
 void MenuFile::actionScriptTriggered()
 {
     QObject *action = QObject::sender();

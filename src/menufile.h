@@ -10,6 +10,7 @@ public:
     MenuFile(QWidget *parent = Q_NULLPTR);
     MenuFile(const QString &title, QWidget *parent = Q_NULLPTR);
     ~MenuFile();
+    QMenu *getMenuScript();
 
 signals:
     void wantScript(const QString&);

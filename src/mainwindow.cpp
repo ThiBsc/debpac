@@ -19,6 +19,7 @@
 #include <QJsonDocument>
 #include <QFileDialog>
 #include <QProcess>
+#include <QToolButton>
 
 const QString MainWindow::version = "0.68";
 
@@ -33,8 +34,17 @@ MainWindow::MainWindow(QWidget *parent) :
     menuHelp = new MenuHelp(this);
     ui->menuBar->addMenu(menuFile);
     ui->menuBar->addMenu(menuHelp);
-    for (QAction *a : menuFile->actions())
-        ui->mainToolBar->addAction(a);
+
+    toolScript = new QToolButton(this);
+    QMenu *mnuScript = menuFile->getMenuScript();
+    toolScript->setMenu(mnuScript);
+    toolScript->setIcon(mnuScript->icon());
+    toolScript->setPopupMode(QToolButton::InstantPopup);
+    ui->mainToolBar->addWidget(toolScript);
+    for (QAction *a : menuFile->actions()){
+        if (!toolScript->actions().contains(a))
+            ui->mainToolBar->addAction(a);
+    }
     menuFile->addSeparator();
     actionQuit = menuFile->addAction("Quit");
 
@@ -71,6 +81,7 @@ MainWindow::~MainWindow()
     delete tabWidget;
     delete splitter;
     delete gLayout;
+    delete toolScript;
     delete actionQuit;
     delete menuFile;
     delete menuHelp;
