@@ -9,6 +9,7 @@ class CodeEditor;
  * @brief The LineNumberArea class
  * http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
  */
+
 class LineNumberArea : public QWidget
 {
     Q_OBJECT

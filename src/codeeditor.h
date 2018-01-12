@@ -3,10 +3,13 @@
 
 #include <QPlainTextEdit>
 
+class QSyntaxHighlighter;
+
 /**
  * @brief The CodeEditor class
  * http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
  */
+
 class CodeEditor : public QPlainTextEdit
 {
     Q_OBJECT
@@ -18,6 +21,7 @@ public:
     int lineNumberAreaWidth();
     void showLineNumber(bool print);
     void showHighlightLine(bool hl);
+    void setSyntaxHighlighter(QSyntaxHighlighter *highlighter);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -27,7 +31,8 @@ private slots:
     void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
 
-private:
+private:    
+    QSyntaxHighlighter *highlighter;
     QWidget *lineNumberArea;
     bool activeHighlight;
 

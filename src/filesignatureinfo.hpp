@@ -10,7 +10,7 @@
 /**
  * @brief The FileSignatureInfo class
  * @author thibaut
- * Class that deducts the extension of a file from its hex signature
+ * Class that deducts the extension of a file from its "magic number"
  * https://en.wikipedia.org/wiki/List_of_file_signatures
  */
 

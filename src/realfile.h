@@ -5,6 +5,11 @@
 
 class FileSignatureInfo;
 
+/**
+ * @brief The RealFile class
+ * Sepcialization of the AbstractFile to manage file
+ */
+
 class RealFile : public AbstractFile
 {
 public:

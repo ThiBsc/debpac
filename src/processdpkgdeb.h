@@ -3,6 +3,11 @@
 
 #include <QProcess>
 
+/**
+ * @brief The ProcessDpkgdeb class
+ * The process to manage the generation of the .deb file
+ */
+
 class ProcessDpkgdeb : public QProcess
 {
     Q_OBJECT

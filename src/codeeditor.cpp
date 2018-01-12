@@ -2,11 +2,13 @@
 #include "linenumberarea.h"
 #include <QPainter>
 #include <QTextBlock>
+#include <QSyntaxHighlighter>
 
 CodeEditor::CodeEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
     activeHighlight = true;
+    highlighter = Q_NULLPTR;
     lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)), this, SLOT(updateLineNumberAreaWidth(int)));
@@ -19,6 +21,9 @@ CodeEditor::CodeEditor(QWidget *parent)
 
 CodeEditor::~CodeEditor()
 {
+    if (highlighter)
+        delete highlighter;
+
     delete lineNumberArea;
 }
 
@@ -71,6 +76,14 @@ void CodeEditor::showHighlightLine(bool hl)
         activeHighlight = hl;
         highlightCurrentLine();
     }
+}
+
+void CodeEditor::setSyntaxHighlighter(QSyntaxHighlighter *highlighter)
+{
+    if (this->highlighter)
+        delete this->highlighter;
+
+    this->highlighter = highlighter;
 }
 
 void CodeEditor::resizeEvent(QResizeEvent *event)

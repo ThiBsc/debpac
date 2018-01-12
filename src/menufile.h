@@ -3,6 +3,11 @@
 
 #include <QMenu>
 
+/**
+ * @brief The MenuFile class
+ * The menu that contains the main actions
+ */
+
 class MenuFile : public QMenu
 {
     Q_OBJECT

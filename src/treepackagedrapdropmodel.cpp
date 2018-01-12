@@ -236,12 +236,12 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
     }
 }
 
-QList<RealFile *> TreePackageDragDropModel::getFileFromUser()
+QVector<RealFile *> TreePackageDragDropModel::getFileFromUser()
 {
     return fileFromUser;
 }
 
-QList<RealFile *> TreePackageDragDropModel::getFileFromProgram()
+QVector<RealFile *> TreePackageDragDropModel::getFileFromProgram()
 {
     return fileFromProgram;
 }

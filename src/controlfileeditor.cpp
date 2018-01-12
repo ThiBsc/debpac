@@ -12,12 +12,12 @@ ControlFileEditor::ControlFileEditor(QWidget *parent)
     showLineNumber(false);
     showHighlightLine(false);
 
-    highlighter = new SyntaxHighLighter(document());
+    setSyntaxHighlighter(new SyntaxHighLighter(SyntaxHighLighter::KEY_VALUE, document()));
 }
 
 ControlFileEditor::~ControlFileEditor()
-{    
-    delete highlighter;
+{
+
 }
 
 QString ControlFileEditor::getPackageName() const

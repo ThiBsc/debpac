@@ -213,7 +213,7 @@ void MainWindow::generatePackage()
                     }
                 }
                 // create the script files
-                QList<RealFile*> files_list = treeModel->getFileFromProgram();
+                QVector<RealFile*> files_list = treeModel->getFileFromProgram();
                 for (RealFile *f : files_list){
                     QString fPath;
                     AbstractFile *parent = f->getParent();

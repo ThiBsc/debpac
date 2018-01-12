@@ -6,6 +6,11 @@
 
 class RealFile;
 
+/**
+ * @brief The Folder class
+ * Sepcialization of the AbstractFile to manage folder
+ */
+
 class Folder : public AbstractFile
 {
 

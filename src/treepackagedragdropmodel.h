@@ -7,6 +7,11 @@ class Folder;
 class RealFile;
 class FileSignatureInfo;
 
+/**
+ * @brief The TreePackageDragDropModel class
+ * The model used in the TreeView to manage file by drag & drop
+ */
+
 class TreePackageDragDropModel : public QAbstractItemModel
 {
 
@@ -26,8 +31,8 @@ public:
     virtual int	columnCount(const QModelIndex &parent = QModelIndex()) const;
     void addFileInfo(FileSignatureInfo *fsi);
     void addFileInfo(const QString& path, FileSignatureInfo *fsi);
-    QList<RealFile *> getFileFromUser();
-    QList<RealFile *> getFileFromProgram();
+    QVector<RealFile *> getFileFromUser();
+    QVector<RealFile *> getFileFromProgram();
     Folder *getRoot();
 
 public slots:
@@ -42,8 +47,8 @@ private:
     virtual QVariant displayRole(const QModelIndex &index) const;
     virtual QVariant decorationRole(const QModelIndex &index) const;
     Folder *tree;
-    QList<RealFile*> fileFromUser;
-    QList<RealFile*> fileFromProgram;
+    QVector<RealFile*> fileFromUser;
+    QVector<RealFile*> fileFromProgram;
 
 };
 

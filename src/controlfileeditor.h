@@ -3,7 +3,10 @@
 
 #include "codeeditor.h"
 
-class SyntaxHighLighter;
+/**
+ * @brief The ControlFileEditor class
+ * A specialization of the CodeEdit for the control file
+ */
 
 class ControlFileEditor : public CodeEditor
 {
@@ -26,7 +29,6 @@ signals:
 private:
     QString packageName;
     QString version;
-    SyntaxHighLighter *highlighter;
 
 };
 

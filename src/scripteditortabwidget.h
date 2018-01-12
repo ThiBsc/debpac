@@ -2,11 +2,17 @@
 #define TABWIDGET_H
 
 #include <QTabWidget>
-#include <QList>
+#include <QVector>
 
 class QPlainTextEdit;
 class CodeEditor;
 class ControlFileEditor;
+
+/**
+ * @brief The ScripEditorTabWidget class
+ * The TabWidget for the debian files edition:
+ * post/pre-inst/rm, .desktop and control file
+ */
 
 class ScripEditorTabWidget : public QTabWidget
 {
@@ -16,7 +22,7 @@ public:
     ~ScripEditorTabWidget();
     void resetToDefault();
     ControlFileEditor *getControlFile();
-    QList<CodeEditor *> getScriptTabs();
+    QVector<CodeEditor *> getScriptTabs();
     int getIndexByName(const QString& name);
 
 public slots:
@@ -28,7 +34,7 @@ public slots:
 
 private:
     ControlFileEditor *controlFile;
-    QList<CodeEditor*> scriptTab;
+    QVector<CodeEditor*> scriptTab;
 
 };
 

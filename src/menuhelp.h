@@ -3,6 +3,11 @@
 
 #include <QMenu>
 
+/**
+ * @brief The MenuHelp class
+ * The menu that contains info about debpac
+ */
+
 class MenuHelp : public QMenu
 {
     Q_OBJECT

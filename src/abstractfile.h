@@ -3,6 +3,12 @@
 
 #include <string>
 
+/**
+ * @brief The AbstractFile class
+ * Used in the TreeView model to represent root
+ * with folders and files
+ */
+
 class AbstractFile
 {
 

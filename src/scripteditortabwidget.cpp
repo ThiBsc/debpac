@@ -1,6 +1,7 @@
 #include "scripteditortabwidget.h"
 #include "codeeditor.h"
 #include "controlfileeditor.h"
+#include "syntaxhighlighter.h"
 #include <QTextStream>
 
 ScripEditorTabWidget::ScripEditorTabWidget(QWidget *parent)
@@ -51,6 +52,7 @@ int ScripEditorTabWidget::addScriptEdit(const QString &label)
         if (file.open(QFile::ReadOnly | QFile::Text)){
             QTextStream stream(&file);
             CodeEditor *ce = new CodeEditor(this);
+            ce->setSyntaxHighlighter(new SyntaxHighLighter(SyntaxHighLighter::SCRIPT, ce->document()));
             ce->setPlainText(stream.readAll());
             scriptTab.append(ce);
             ret = QTabWidget::addTab(ce, label);
@@ -81,6 +83,7 @@ int ScripEditorTabWidget::addDesktopEdit()
             if (file.open(QFile::ReadOnly | QFile::Text)){
                 QTextStream stream(&file);
                 CodeEditor *ce = new CodeEditor(this);
+                ce->setSyntaxHighlighter(new SyntaxHighLighter(SyntaxHighLighter::SECTION_VALUES, ce->document()));
                 QString desktop_file = stream.readAll();
                 ce->setPlainText(
                             desktop_file.arg(
@@ -129,7 +132,7 @@ ControlFileEditor *ScripEditorTabWidget::getControlFile()
     return controlFile;
 }
 
-QList<CodeEditor *> ScripEditorTabWidget::getScriptTabs()
+QVector<CodeEditor *> ScripEditorTabWidget::getScriptTabs()
 {
     return scriptTab;
 }

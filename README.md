@@ -11,14 +11,14 @@ Change package version | ![progress](http://progressed.io/bar/100)
 Add postinst/preinst script | ![progress](http://progressed.io/bar/100)
 Add postrm/prerm script | ![progress](http://progressed.io/bar/100)
 Add .desktop file | ![progress](http://progressed.io/bar/100)
-Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/33)
+Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/70)
 Reorganise tree | ![progress](http://progressed.io/bar/0)
-Type of file recognise by hex signature | ![progress](http://progressed.io/bar/60)
+Type of file recognise by hex signature | ![progress](http://progressed.io/bar/65)
 Save package project | ![progress](http://progressed.io/bar/100)
 Restore package project | ![progress](http://progressed.io/bar/100)
 Generate package | ![progress](http://progressed.io/bar/100)
 
-First release progress ![progress](http://progressed.io/bar/72)
+First release progress ![progress](http://progressed.io/bar/74)
 
 ## Requirements
 
