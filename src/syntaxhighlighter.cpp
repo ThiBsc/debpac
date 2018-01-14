@@ -86,5 +86,23 @@ void SyntaxHighLighter::initSyntaxSectionValues()
 
 void SyntaxHighLighter::initSyntaxScript()
 {
+    // FIXME: contribute by improving this syntaxic coloration
 
+    HighlightingRule rule;
+
+    QTextCharFormat format;
+
+    // shebang
+    format.setForeground(Qt::darkMagenta);
+    format.setFontWeight(QFont::Bold);
+    rule.pattern = QRegularExpression("^#!.*$");
+    rule.format = format;
+    highlightingRules.append(rule);
+
+    // comment
+    format.setForeground(Qt::gray);
+    format.setFontWeight(QFont::Normal);
+    rule.pattern = QRegularExpression("^#[^!].*$");
+    rule.format = format;
+    highlightingRules.append(rule);
 }
