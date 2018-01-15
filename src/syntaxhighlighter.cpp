@@ -87,10 +87,23 @@ void SyntaxHighLighter::initSyntaxSectionValues()
 void SyntaxHighLighter::initSyntaxScript()
 {
     // FIXME: contribute by improving this syntaxic coloration
-
     HighlightingRule rule;
 
     QTextCharFormat format;
+
+    // commands list
+    format.setForeground(Qt::darkBlue);
+    format.setFontWeight(QFont::Bold);
+    QStringList commandList;
+        commandList << "ls" << "cd" << "mv"
+                        << "mkdir" << "rmdir" << "touch"
+                        << "rm" << "locate" << "clear"
+                        << "echo";
+    foreach (const QString &pattern, commandList) {
+        rule.pattern = QRegularExpression("\\b"+pattern+"\\b");
+        rule.format = format;
+        highlightingRules.append(rule);
+    }
 
     // shebang
     format.setForeground(Qt::darkMagenta);
