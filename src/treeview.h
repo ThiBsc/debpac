@@ -26,10 +26,10 @@ protected:
 
 private:
     TreePackageDragDropModel *tp_model;
-    QAction *upFile;
-    QAction *downFile;
-    QAction *createFolder;
-    QAction *renameFolder;
+    QAction *actionUpFile;
+    QAction *actionDownFile;
+    QAction *actionCreateFolder;
+    QAction *actionRenameFolder;
 
 };
 

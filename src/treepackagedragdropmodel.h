@@ -39,6 +39,10 @@ public slots:
     void addScriptFile(const QString& name);
     void addDesktopFile(const QString& name);
     void changePackageName(const QString &pname);
+    void moveUpFile();
+    void moveDownFile();
+    void createFolder();
+    void renameFolder();
 
 signals:
     void changeDesktopTab(const QString &oldname, const QString &newname);

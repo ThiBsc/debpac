@@ -308,6 +308,26 @@ void TreePackageDragDropModel::changePackageName(const QString &pname)
     emit headerDataChanged(Qt::Horizontal, 0, 0);
 }
 
+void TreePackageDragDropModel::moveUpFile()
+{
+
+}
+
+void TreePackageDragDropModel::moveDownFile()
+{
+
+}
+
+void TreePackageDragDropModel::createFolder()
+{
+
+}
+
+void TreePackageDragDropModel::renameFolder()
+{
+
+}
+
 QVariant TreePackageDragDropModel::displayRole(const QModelIndex &index) const
 {
     QString ret = QString(static_cast<AbstractFile*>(index.internalPointer())->getName().c_str());
