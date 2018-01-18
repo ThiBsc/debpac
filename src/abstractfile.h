@@ -21,6 +21,7 @@ public:
     void setParent(AbstractFile *parent);
     void setName(const std::string& name);
     void setCanRename(bool canRename);
+    bool isRenamable();
 
 protected:
     AbstractFile *parent;

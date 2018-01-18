@@ -42,3 +42,8 @@ void AbstractFile::setCanRename(bool canRename)
 {
     this->canRename = canRename;
 }
+
+bool AbstractFile::isRenamable()
+{
+    return canRename;
+}
