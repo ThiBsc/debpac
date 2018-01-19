@@ -23,7 +23,8 @@ public:
     virtual QModelIndex	index(int row, int column = 0, const QModelIndex &parent = QModelIndex()) const;
     virtual QModelIndex	parent(const QModelIndex &index) const;
     virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;    
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role);
     virtual bool canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const;
     virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -39,10 +40,8 @@ public slots:
     void addScriptFile(const QString& name);
     void addDesktopFile(const QString& name);
     void changePackageName(const QString &pname);
-    void moveUpFile();
-    void moveDownFile();
-    void createFolder();
-    void renameFolder();
+    void createFolder(const QModelIndex &index);
+    void removeFolder(const QModelIndex &index);
 
 signals:
     void changeDesktopTab(const QString &oldname, const QString &newname);

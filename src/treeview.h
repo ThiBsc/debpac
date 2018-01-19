@@ -20,16 +20,16 @@ public:
 
 public slots:
     void addFile(FileSignatureInfo *fsi);
+    void createFolder();
+    void removeFolder();
 
 protected:
     virtual void contextMenuEvent(QContextMenuEvent *event);
 
 private:
     TreePackageDragDropModel *tp_model;
-    QAction *actionUpFile;
-    QAction *actionDownFile;
     QAction *actionCreateFolder;
-    QAction *actionRenameFolder;
+    QAction *actionRemoveFolder;
 
 };
 

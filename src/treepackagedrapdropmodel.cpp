@@ -76,6 +76,9 @@ QVariant TreePackageDragDropModel::data(const QModelIndex &index, int role) cons
         case Qt::DecorationRole:
             ret = decorationRole(index);
             break;
+        case Qt::EditRole:
+            ret = displayRole(index);
+            break;
         default:
             break;
         }
@@ -95,6 +98,17 @@ QVariant TreePackageDragDropModel::headerData(int section, Qt::Orientation orien
         default:
             break;
         }
+    }
+    return ret;
+}
+
+bool TreePackageDragDropModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    bool ret = false;
+    if (index.isValid() && role == Qt::EditRole){
+        AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
+        af->setName(value.toString().toStdString());
+        ret = true;
     }
     return ret;
 }
@@ -133,8 +147,23 @@ bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropActio
 Qt::ItemFlags TreePackageDragDropModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags ret = QAbstractItemModel::flags(index);
-    if (!index.isValid())
+    if (index.isValid()){
+        AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
+        if (RealFile *rf = dynamic_cast<RealFile*>(af)){
+            if (rf->getParent()->getName() != "DEBIAN"){
+                ret |= Qt::ItemIsDragEnabled;
+            }
+        }
+        if (Folder *f = dynamic_cast<Folder*>(af)){
+            if (f->getName() != "DEBIAN")
+                ret |= Qt::ItemIsDropEnabled;
+        }
+        if (af->isRenamable()){
+            ret |= Qt::ItemIsEditable;
+        }
+    } else {
         ret |= Qt::ItemIsDropEnabled;
+    }
     return ret;
 }
 
@@ -308,24 +337,30 @@ void TreePackageDragDropModel::changePackageName(const QString &pname)
     emit headerDataChanged(Qt::Horizontal, 0, 0);
 }
 
-void TreePackageDragDropModel::moveUpFile()
+void TreePackageDragDropModel::createFolder(const QModelIndex &index)
 {
-
+    if (index.isValid()){
+        Folder *f = static_cast<Folder*>(index.internalPointer());
+        if (f){
+            beginInsertRows(index, f->count(false), f->count(false));
+            f->add(new Folder("new_folder", true));
+            endInsertRows();
+        }
+    }
 }
 
-void TreePackageDragDropModel::moveDownFile()
+void TreePackageDragDropModel::removeFolder(const QModelIndex &index)
 {
-
-}
-
-void TreePackageDragDropModel::createFolder()
-{
-
-}
-
-void TreePackageDragDropModel::renameFolder()
-{
-
+    if (index.isValid()){
+        Folder *f = static_cast<Folder*>(index.internalPointer());
+        if (f){
+            Folder *fparent = static_cast<Folder*>(index.parent().internalPointer());
+            beginRemoveRows(index.parent(), index.row(), index.row());
+            if (fparent->remove(f))
+                delete f;
+            endRemoveRows();
+        }
+    }
 }
 
 QVariant TreePackageDragDropModel::displayRole(const QModelIndex &index) const

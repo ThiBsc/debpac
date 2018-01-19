@@ -1,5 +1,6 @@
 #include "folder.h"
 #include "realfile.h"
+#include <algorithm>
 
 Folder::Folder(const std::string &name, bool canRename)
     : AbstractFile(name, canRename)
@@ -89,5 +90,16 @@ void Folder::renameFolder(const std::string &oldname, const std::string &name, b
 AbstractFile *Folder::child(int row)
 {
     return tree.at(row);
+}
+
+bool Folder::remove(AbstractFile *af)
+{
+    bool ret = false;
+    auto it = std::find(tree.begin(), tree.end(), af);
+    if (it != tree.end()){
+        tree.erase(it);
+        ret = true;
+    }
+    return ret;
 }
 

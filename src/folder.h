@@ -24,6 +24,7 @@ public:
     RealFile *containFile(const std::string& name);
     void renameFolder(const std::string& oldname, const std::string& name, bool recursive);
     AbstractFile *child(int row);
+    bool remove(AbstractFile *af);
     template<class T>
     T getChild(std::string name)
     {

@@ -8,38 +8,29 @@
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)
 {
-    actionUpFile = new QAction("Up file", this);
-    actionDownFile = new QAction("Down file", this);
     actionCreateFolder = new QAction("Create folder", this);
-    actionRenameFolder = new QAction("Rename folder", this);
+    actionRemoveFolder = new QAction("Remove folder", this);
 
-    actionUpFile->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Up));
-    actionDownFile->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Down));
     actionCreateFolder->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
-    actionRenameFolder->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_R));
+    actionRemoveFolder->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_R));
 
-    addAction(actionUpFile);
-    addAction(actionDownFile);
     addAction(actionCreateFolder);
-    addAction(actionRenameFolder);
+    addAction(actionRemoveFolder);
 
     tp_model = new TreePackageDragDropModel(this);
     setModel(tp_model);
     expandAll();
     setAcceptDrops(true);
+    setDragEnabled(true);
 
-    connect(actionUpFile, SIGNAL(triggered(bool)), tp_model, SLOT(moveUpFile()));
-    connect(actionDownFile, SIGNAL(triggered(bool)), tp_model, SLOT(moveDownFile()));
-    connect(actionCreateFolder, SIGNAL(triggered(bool)), tp_model, SLOT(createFolder()));
-    connect(actionRenameFolder, SIGNAL(triggered(bool)), tp_model, SLOT(renameFolder()));
+    connect(actionCreateFolder, SIGNAL(triggered(bool)), this, SLOT(createFolder()));
+    connect(actionRemoveFolder, SIGNAL(triggered(bool)), this, SLOT(removeFolder()));
 }
 
 TreeView::~TreeView()
 {
-    delete actionUpFile;
-    delete actionDownFile;
     delete actionCreateFolder;
-    delete actionRenameFolder;
+    delete actionRemoveFolder;
     delete tp_model;
 }
 
@@ -48,25 +39,33 @@ void TreeView::addFile(FileSignatureInfo *fsi)
     tp_model->addFileInfo(fsi);
 }
 
+void TreeView::createFolder()
+{
+    tp_model->createFolder(currentIndex());
+}
+
+void TreeView::removeFolder()
+{
+    AbstractFile *af = static_cast<AbstractFile*>(currentIndex().internalPointer());
+    if (af->getParent()->getParent() != nullptr){
+        tp_model->removeFolder(currentIndex());
+    }
+}
+
 void TreeView::contextMenuEvent(QContextMenuEvent *event)
 {
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()){
         AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
-
-        if (dynamic_cast<RealFile*>(af) && af->getParent()->getName() != "DEBIAN"){
-            // you can't rename file in DEBIAN folder
+        if (af->getName() != "DEBIAN"){
+            // you can't touch DEBIAN folder
             QMenu menu(this);
-            menu.addAction(actionUpFile);
-            menu.addAction(actionDownFile);
-            menu.exec(event->globalPos());
-        } else {
-            if (af->isRenamable()){
-                QMenu menu(this);
-                menu.addAction(actionCreateFolder);
-                menu.addAction(actionRenameFolder);
-                menu.exec(event->globalPos());
+            menu.addAction(actionCreateFolder);
+            if (af->getParent()->getParent() != nullptr){
+                // if is not DEBIAN or usr folder
+                menu.addAction(actionRemoveFolder);
             }
+            menu.exec(event->globalPos());
         }
     }
 }
