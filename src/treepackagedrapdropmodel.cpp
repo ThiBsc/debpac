@@ -113,15 +113,24 @@ bool TreePackageDragDropModel::setData(const QModelIndex &index, const QVariant 
     return ret;
 }
 
+#include <QDebug>
 bool TreePackageDragDropModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(action);
     Q_UNUSED(row);
     Q_UNUSED(column);
-    Q_UNUSED(parent);
     bool ret = false;
     if (data->hasUrls()){
+        // from filesystem
         ret = QFileInfo(data->urls().first().path()).isFile();
+    } else {
+        // from tree
+        if (parent.isValid()){
+            if (Folder *parent_f = static_cast<Folder*>(parent.internalPointer())){
+                if (parent_f != tree && parent_f->getName() != "DEBIAN")
+                    ret = true;
+            }
+        }
     }
     return ret;
 }
@@ -131,17 +140,35 @@ bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropActio
     Q_UNUSED(action);
     Q_UNUSED(row);
     Q_UNUSED(column);
-    Q_UNUSED(parent);
     bool ret = false;
-    FileSignatureInfo *fsi = new FileSignatureInfo(data->urls().first().path().toStdString());
-    int before = tree->count(true);
-    addFileInfo(fsi);
-    if (before < tree->count(true)){
-        ret = true;
+    if (data->hasUrls()){
+        // add from filesystem
+        FileSignatureInfo *fsi = new FileSignatureInfo(data->urls().first().path().toStdString());
+        int before = tree->count(true);
+        addFileInfo(fsi);
+        if (before < tree->count(true)){
+            ret = true;
+        } else {
+            delete fsi;
+        }
     } else {
-        delete fsi;
+        // move from tree
+        qDebug() << row << column << action << data;
+        qDebug() << data->formats();
+        if (parent.isValid()){
+
+        }
     }
     return ret;
+}
+
+QMimeData *TreePackageDragDropModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = QAbstractItemModel::mimeData(indexes);
+    if (!indexes.isEmpty()){
+        QModelIndex index = indexes.first();
+    }
+    return mimeData;
 }
 
 Qt::ItemFlags TreePackageDragDropModel::flags(const QModelIndex &index) const
