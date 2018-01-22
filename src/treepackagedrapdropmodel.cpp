@@ -153,10 +153,24 @@ bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropActio
         }
     } else {
         // move from tree
-        qDebug() << row << column << action << data;
-        qDebug() << data->formats();
-        if (parent.isValid()){
-
+        if (parent.isValid() && data->formats().first() == "debpac/realfile"){
+            const QString realfile_ptr = data->text();
+            qintptr rf_ptr = realfile_ptr.toLong(nullptr, 16);
+            RealFile *rf = reinterpret_cast<RealFile*>(rf_ptr);
+            if (rf){
+                QModelIndex old = indexByInternalPointer(rf);
+                if (old.isValid()){
+                    beginRemoveRows(old.parent(), old.row(), old.row());
+                    tree->getChild<Folder*>("usr")->remove(rf, true);
+                    endRemoveRows();
+                    Folder *new_emplacement = static_cast<Folder*>(parent.internalPointer());
+                    if (new_emplacement){
+                        beginInsertRows(parent, new_emplacement->count(false), new_emplacement->count(false));
+                        new_emplacement->add(rf);
+                        endInsertRows();
+                    }
+                }
+            }
         }
     }
     return ret;
@@ -165,10 +179,20 @@ bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropActio
 QMimeData *TreePackageDragDropModel::mimeData(const QModelIndexList &indexes) const
 {
     QMimeData *mimeData = QAbstractItemModel::mimeData(indexes);
-    if (!indexes.isEmpty()){
-        QModelIndex index = indexes.first();
+    if (indexes.first().isValid()){
+        RealFile *rf = static_cast<RealFile*>(indexes.first().internalPointer());
+        if (rf){
+            mimeData->setText(QString("0x%1").arg((qintptr) rf, QT_POINTER_SIZE, 16, QChar('0')));
+        }
     }
     return mimeData;
+}
+
+QStringList TreePackageDragDropModel::mimeTypes() const
+{
+    QStringList mime_types = QAbstractItemModel::mimeTypes();
+    mime_types.prepend("debpac/realfile");
+    return mime_types;
 }
 
 Qt::ItemFlags TreePackageDragDropModel::flags(const QModelIndex &index) const
@@ -216,6 +240,18 @@ int TreePackageDragDropModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
     return 1;
+}
+
+QModelIndex TreePackageDragDropModel::indexByInternalPointer(void *internal)
+{
+    QModelIndex ret;
+    for (QModelIndex index : persistentIndexList()){
+        if (index.internalPointer() == internal){
+            ret = index;
+            break;
+        }
+    }
+    return ret;
 }
 
 void TreePackageDragDropModel::addFileInfo(FileSignatureInfo *fsi)
@@ -383,7 +419,7 @@ void TreePackageDragDropModel::removeFolder(const QModelIndex &index)
         if (f){
             Folder *fparent = static_cast<Folder*>(index.parent().internalPointer());
             beginRemoveRows(index.parent(), index.row(), index.row());
-            if (fparent->remove(f))
+            if (fparent->remove(f, false))
                 delete f;
             endRemoveRows();
         }

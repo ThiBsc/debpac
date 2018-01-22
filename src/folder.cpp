@@ -92,13 +92,20 @@ AbstractFile *Folder::child(int row)
     return tree.at(row);
 }
 
-bool Folder::remove(AbstractFile *af)
+bool Folder::remove(AbstractFile *afile, bool recursive)
 {
     bool ret = false;
-    auto it = std::find(tree.begin(), tree.end(), af);
+    auto it = std::find(tree.begin(), tree.end(), afile);
     if (it != tree.end()){
         tree.erase(it);
         ret = true;
+    }
+    if (recursive && !ret){
+        for (AbstractFile *af : tree){
+            if(Folder* f = dynamic_cast<Folder*>(af)) {
+               ret = f->remove(afile, recursive);
+            }
+        }
     }
     return ret;
 }
