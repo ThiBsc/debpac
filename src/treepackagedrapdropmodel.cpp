@@ -366,7 +366,7 @@ void TreePackageDragDropModel::removeScriptFile(const QString &name)
         Folder *parent = static_cast<Folder*>(index.parent().internalPointer());
         if (parent){
             if (parent->remove(removedFile, false)){
-                fileFromProgram.removeOne(removedFile);
+                fileFromProgram.remove(fileFromProgram.indexOf(removedFile));
                 delete removedFile;
             }
         }
