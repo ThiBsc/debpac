@@ -25,7 +25,11 @@ public:
     QVector<CodeEditor *> getScriptTabs();
     int getIndexByName(const QString& name);
 
+signals:
+    void removeScriptTab(const QString &tabname);
+
 public slots:
+    void closeScriptTab(int tab);
     int addScriptEdit(const QString &label);
     int addScriptEdit(const QIcon &icon, const QString &label);
     int addDesktopEdit();

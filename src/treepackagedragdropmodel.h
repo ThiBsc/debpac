@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 
+class AbstractFile;
 class Folder;
 class RealFile;
 class FileSignatureInfo;
@@ -32,7 +33,7 @@ public:
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
     virtual int	rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual int	columnCount(const QModelIndex &parent = QModelIndex()) const;
-    QModelIndex indexByInternalPointer(void *internal);
+    QModelIndex indexByAbstractFile(AbstractFile *internal);
     void addFileInfo(FileSignatureInfo *fsi);
     void addFileInfo(const QString& path, FileSignatureInfo *fsi);
     QVector<RealFile *> getFileFromUser();
@@ -41,6 +42,7 @@ public:
 
 public slots:
     void addScriptFile(const QString& name);
+    void removeScriptFile(const QString& name);
     void addDesktopFile(const QString& name);
     void changePackageName(const QString &pname);
     void createFolder(const QModelIndex &index);

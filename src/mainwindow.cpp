@@ -21,7 +21,7 @@
 #include <QProcess>
 #include <QToolButton>
 
-const QString MainWindow::version = "0.68";
+const QString MainWindow::version = "0.98";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -68,6 +68,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(menuFile, SIGNAL(wantDesktop(QString)), tabWidget, SLOT(addDesktopEdit()));
     connect(menuFile, SIGNAL(wantDesktop(QString)), treeView->model(), SLOT(addDesktopFile(QString)));
     connect(treeView->model(), SIGNAL(changeDesktopTab(QString, QString)), tabWidget, SLOT(renameDesktopTab(QString,QString)));
+    connect(tabWidget, SIGNAL(removeScriptTab(QString)), treeView->model(), SLOT(removeScriptFile(QString)));
 
     connect(menuFile, SIGNAL(wantGeneratePackage()), this, SLOT(generatePackage()));
     connect(menuFile, SIGNAL(savePackageProject()), this, SLOT(saveToJson()));
@@ -186,7 +187,6 @@ void MainWindow::restoreFromJson()
     }
 }
 
-#include <QDebug>
 void MainWindow::generatePackage()
 {
     QString deb_name = tabWidget->getControlFile()->getPackageName() + "-" + tabWidget->getControlFile()->getVersion() + ".deb";

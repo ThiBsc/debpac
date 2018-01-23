@@ -3,6 +3,7 @@
 #include "controlfileeditor.h"
 #include "syntaxhighlighter.h"
 #include <QTextStream>
+#include <QTabBar>
 
 ScripEditorTabWidget::ScripEditorTabWidget(QWidget *parent)
     : QTabWidget(parent)
@@ -16,6 +17,9 @@ ScripEditorTabWidget::ScripEditorTabWidget(QWidget *parent)
     } else {
         controlFile = Q_NULLPTR;
     }
+    setTabsClosable(true);
+    tabBar()->tabButton(0, QTabBar::RightSide)->resize(0, 0);
+    connect(this, SIGNAL(tabCloseRequested(int)), this, SLOT(closeScriptTab(int)));
 }
 
 ScripEditorTabWidget::~ScripEditorTabWidget()
@@ -125,6 +129,16 @@ int ScripEditorTabWidget::getIndexByName(const QString &name)
             ret = i;
     }
     return ret;
+}
+
+void ScripEditorTabWidget::closeScriptTab(int tab)
+{
+    QWidget *script = widget(tab);
+    if (script){
+        const QString tabname = tabText(tab);
+        removeTab(tab);
+        emit removeScriptTab(tabname);
+    }
 }
 
 ControlFileEditor *ScripEditorTabWidget::getControlFile()

@@ -92,6 +92,17 @@ AbstractFile *Folder::child(int row)
     return tree.at(row);
 }
 
+int Folder::child(AbstractFile *af)
+{
+    int ret = -1;
+    for (int i=0; i<tree.size() && ret==-1; i++){
+        if (tree[i] == af){
+            ret = i;
+        }
+    }
+    return ret;
+}
+
 bool Folder::remove(AbstractFile *afile, bool recursive)
 {
     bool ret = false;

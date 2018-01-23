@@ -57,7 +57,7 @@ void TreeView::contextMenuEvent(QContextMenuEvent *event)
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()){
         AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
-        if (af->getName() != "DEBIAN"){
+        if (af->getName() != "DEBIAN" && af->getParent()->getName() != "DEBIAN"){
             // you can't touch DEBIAN folder
             QMenu menu(this);
             menu.addAction(actionCreateFolder);

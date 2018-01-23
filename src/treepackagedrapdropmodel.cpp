@@ -113,7 +113,6 @@ bool TreePackageDragDropModel::setData(const QModelIndex &index, const QVariant 
     return ret;
 }
 
-#include <QDebug>
 bool TreePackageDragDropModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
 {
     Q_UNUSED(action);
@@ -158,7 +157,7 @@ bool TreePackageDragDropModel::dropMimeData(const QMimeData *data, Qt::DropActio
             qintptr rf_ptr = realfile_ptr.toLong(nullptr, 16);
             RealFile *rf = reinterpret_cast<RealFile*>(rf_ptr);
             if (rf){
-                QModelIndex old = indexByInternalPointer(rf);
+                QModelIndex old = indexByAbstractFile(rf);
                 if (old.isValid()){
                     beginRemoveRows(old.parent(), old.row(), old.row());
                     tree->getChild<Folder*>("usr")->remove(rf, true);
@@ -242,15 +241,10 @@ int TreePackageDragDropModel::columnCount(const QModelIndex &parent) const
     return 1;
 }
 
-QModelIndex TreePackageDragDropModel::indexByInternalPointer(void *internal)
+QModelIndex TreePackageDragDropModel::indexByAbstractFile(AbstractFile *internal)
 {
-    QModelIndex ret;
-    for (QModelIndex index : persistentIndexList()){
-        if (index.internalPointer() == internal){
-            ret = index;
-            break;
-        }
-    }
+    Folder *parent = dynamic_cast<Folder*>(internal->getParent());
+    QModelIndex ret = createIndex(parent->child(internal), 0, internal);
     return ret;
 }
 
@@ -355,6 +349,28 @@ void TreePackageDragDropModel::addScriptFile(const QString &name)
             fileFromProgram.append(rf);
             endInsertRows();
         }
+    }
+}
+
+void TreePackageDragDropModel::removeScriptFile(const QString &name)
+{
+    RealFile *removedFile = Q_NULLPTR;
+    for (int i=0; i<fileFromProgram.size() && !removedFile; i++){
+        if (fileFromProgram.at(i)->getName() == name.toStdString()){
+            removedFile = fileFromProgram.at(i);
+        }
+    }
+    QModelIndex index = indexByAbstractFile(removedFile);
+    if (index.isValid()){
+        beginRemoveRows(index.parent(), index.row(), index.row());
+        Folder *parent = static_cast<Folder*>(index.parent().internalPointer());
+        if (parent){
+            if (parent->remove(removedFile, false)){
+                fileFromProgram.removeOne(removedFile);
+                delete removedFile;
+            }
+        }
+        endRemoveRows();
     }
 }
 
