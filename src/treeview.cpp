@@ -2,6 +2,7 @@
 #include "treepackagedragdropmodel.h"
 #include "filesignatureinfo.hpp"
 #include "realfile.h"
+#include "folder.h"
 #include <QMenu>
 #include <QContextMenuEvent>
 
@@ -57,7 +58,7 @@ void TreeView::contextMenuEvent(QContextMenuEvent *event)
     QModelIndex index = indexAt(event->pos());
     if (index.isValid()){
         AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
-        if (af->getName() != "DEBIAN" && af->getParent()->getName() != "DEBIAN"){
+        if (af->getName() != "DEBIAN" && af->getParent()->getName() != "DEBIAN" && dynamic_cast<Folder*>(af)){
             // you can't touch DEBIAN folder
             QMenu menu(this);
             menu.addAction(actionCreateFolder);

@@ -419,8 +419,9 @@ void TreePackageDragDropModel::changePackageName(const QString &pname)
 void TreePackageDragDropModel::createFolder(const QModelIndex &index)
 {
     if (index.isValid()){
-        Folder *f = static_cast<Folder*>(index.internalPointer());
-        if (f){
+        AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
+        // only if it's folder
+        if (Folder *f = dynamic_cast<Folder*>(af)){
             beginInsertRows(index, f->count(false), f->count(false));
             f->add(new Folder("new_folder", true));
             endInsertRows();
@@ -431,8 +432,9 @@ void TreePackageDragDropModel::createFolder(const QModelIndex &index)
 void TreePackageDragDropModel::removeFolder(const QModelIndex &index)
 {
     if (index.isValid()){
-        Folder *f = static_cast<Folder*>(index.internalPointer());
-        if (f){
+        AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
+        // only if it's folder
+        if (Folder *f = dynamic_cast<Folder*>(af)){
             Folder *fparent = static_cast<Folder*>(index.parent().internalPointer());
             beginRemoveRows(index.parent(), index.row(), index.row());
             if (fparent->remove(f, false))
