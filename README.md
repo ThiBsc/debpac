@@ -6,6 +6,7 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/thibD
 The first release is available [here !](https://github.com/thibDev/debpac/releases/tag/1)
 
 In the next version:
+
 Features | State
 ------------ | -------------
 Tooltip on tree element hover | ![progress](http://progressed.io/bar/0)
