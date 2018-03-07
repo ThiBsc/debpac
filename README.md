@@ -3,22 +3,16 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/thibD
 
 ## Development status
 
+The first release is available [here !](https://github.com/thibDev/debpac/releases/tag/1)
+
+In the next version:
 Features | State
 ------------ | -------------
-Drag & Drop | ![progress](http://progressed.io/bar/100)
-Rename package name | ![progress](http://progressed.io/bar/100)
-Change package version | ![progress](http://progressed.io/bar/100)
-Add postinst/preinst script | ![progress](http://progressed.io/bar/100)
-Add postrm/prerm script | ![progress](http://progressed.io/bar/100)
-Add .desktop file | ![progress](http://progressed.io/bar/100)
-Syntaxic coloration for file editing | ![progress](http://progressed.io/bar/80)
-Reorganise tree | ![progress](http://progressed.io/bar/100)
-Type of file recognise by "magic number" | ![progress](http://progressed.io/bar/65)
-Save package project | ![progress](http://progressed.io/bar/100)
-Restore package project | ![progress](http://progressed.io/bar/100)
-Generate package | ![progress](http://progressed.io/bar/100)
+Tooltip on tree element hover | ![progress](http://progressed.io/bar/0)
+Improve the syntaxic coloration for file editing | ![progress](http://progressed.io/bar/0)
+Increase the number of file type recognition by "magic number" | ![progress](http://progressed.io/bar/0)
 
-First release progress ![progress](http://progressed.io/bar/90)
+Second release progress ![progress](http://progressed.io/bar/0)
 
 ## Requirements
 
@@ -42,7 +36,8 @@ make && make clean
 
 ### Support development :+1:
 
-Star the project :star:
+* Star the project :star:
+* You can fork the project and implement the features in the _development status section_
 
 ### Credits
 
