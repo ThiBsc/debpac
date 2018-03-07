@@ -21,7 +21,7 @@
 #include <QProcess>
 #include <QToolButton>
 
-const QString MainWindow::version = "0.98";
+const QString MainWindow::version = "1";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
