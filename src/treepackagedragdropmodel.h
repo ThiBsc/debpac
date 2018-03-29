@@ -54,6 +54,7 @@ signals:
 private:
     virtual QVariant displayRole(const QModelIndex &index) const;
     virtual QVariant decorationRole(const QModelIndex &index) const;
+    virtual QVariant toolTipRole(const QModelIndex &index) const;
     Folder *tree;
     QVector<RealFile*> fileFromUser;
     QVector<RealFile*> fileFromProgram;

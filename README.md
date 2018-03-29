@@ -9,11 +9,11 @@ In the next version:
 
 Features | State
 ------------ | -------------
-Tooltip on tree element hover | ![progress](http://progressed.io/bar/0)
+Tooltip on tree element hover | ![progress](http://progressed.io/bar/100)
 Improve the syntaxic coloration for file editing | ![progress](http://progressed.io/bar/0)
 Increase the number of file type recognition by "magic number" | ![progress](http://progressed.io/bar/0)
 
-Second release progress ![progress](http://progressed.io/bar/0)
+Second release progress ![progress](http://progressed.io/bar/33)
 
 ## Requirements
 

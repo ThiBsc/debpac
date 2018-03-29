@@ -79,6 +79,9 @@ QVariant TreePackageDragDropModel::data(const QModelIndex &index, int role) cons
         case Qt::EditRole:
             ret = displayRole(index);
             break;
+        case Qt::ToolTipRole:
+            ret = toolTipRole(index);
+            break;
         default:
             break;
         }
@@ -458,6 +461,25 @@ QVariant TreePackageDragDropModel::decorationRole(const QModelIndex &index) cons
         ret = QIcon("://icon/folder.png");
     } else {
         ret = dynamic_cast<RealFile*>(af)->getFileSignatureInfo().getIcon();
+    }
+    return ret;
+}
+
+QVariant TreePackageDragDropModel::toolTipRole(const QModelIndex &index) const
+{
+    QString ret;
+    AbstractFile *af = static_cast<AbstractFile*>(index.internalPointer());
+    if (RealFile *rf = dynamic_cast<RealFile*>(af)){
+        FileSignatureInfo fi = rf->getFileSignatureInfo();
+        ret = "<b>[File]</b> " + QString(af->getName().c_str()) + "<br>";
+        if (fi.getCategory() == FileSignatureInfo::INEXISTANT){
+            ret += "From: <i>debpac</i>";
+        } else {
+            ret += "From: <i>File system</i><br>";
+            ret += "Magic number: <i>" + QString("%1 (%2)").arg(fi.getHex_signature().c_str(), fi.getExtension().c_str()) + "</i>";
+        }
+    } else {
+        ret = "<b>[Folder]</b> "+QString(af->getName().c_str());
     }
     return ret;
 }
