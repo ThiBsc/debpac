@@ -3,7 +3,7 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/thibD
 
 ## Development status
 
-The first release is available [here !](https://github.com/thibDev/debpac/releases/tag/1)
+The first release is available ~~here !~~(bug to fix)
 
 In the next version:
 
