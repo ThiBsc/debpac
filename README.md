@@ -3,7 +3,7 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/thibD
 
 ## Development status
 
-The first release is available ~~here !~~(bug to fix)
+The first release is available ~~here !~~(bug to fix :white_check_mark:)
 
 In the next version:
 
@@ -11,7 +11,7 @@ Features | State
 ------------ | -------------
 Tooltip on tree element hover | ![progress](http://progressed.io/bar/100)
 Improve the syntaxic coloration for file editing | ![progress](http://progressed.io/bar/0)
-Increase the number of file type recognition by "magic number" | ![progress](http://progressed.io/bar/0)
+Improve the number of file type recognition by "magic number" | ![progress](http://progressed.io/bar/0)
 
 Second release progress ![progress](http://progressed.io/bar/33)
 

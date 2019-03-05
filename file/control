@@ -1,6 +1,7 @@
 # Documentation for the control file can be found here:
 # https://manpages.debian.org/jessie/dpkg-dev/index.html
-Package: package_name
+# Package name must contains only alphanumeric character
+Package: packagename
 Version: 1.0
 # Section ex: mail, text, net, devel...
 Section: base

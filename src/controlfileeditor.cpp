@@ -6,7 +6,7 @@
 ControlFileEditor::ControlFileEditor(QWidget *parent)
     : CodeEditor(parent)
 {
-    packageName = "package_name";
+    packageName = "packagename";
     version = "1.0";
     connect(this, SIGNAL(textChanged()), this, SLOT(infoIsEdited()));
     showLineNumber(false);

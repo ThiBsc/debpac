@@ -11,7 +11,7 @@ TreePackageDragDropModel::TreePackageDragDropModel(QObject *parent)
     : QAbstractItemModel(parent)
 {
     // default tree of a debian package
-    tree = new Folder("package_name");
+    tree = new Folder("packagename");
     tree->add(new Folder("DEBIAN", false)).add(new RealFile("control", false));
     tree->add(new Folder("usr", false)).add(new Folder("bin", false));
 }
@@ -29,7 +29,7 @@ void TreePackageDragDropModel::resetToDefault()
     beginResetModel();
     delete tree;
     fileFromUser.clear();
-    tree = new Folder("package_name");
+    tree = new Folder("packagename");
     tree->add(new Folder("DEBIAN", false)).add(new RealFile("control", false));
     tree->add(new Folder("usr", false)).add(new Folder("bin", false));
     endResetModel();
@@ -312,7 +312,7 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
             f = nf;
             endInsertRows();
         }
-        parentIndex = index(0, 0, parentIndex);
+        parentIndex = indexByAbstractFile(f);
         idx++;
     }
     if (f){
@@ -320,7 +320,7 @@ void TreePackageDragDropModel::addFileInfo(const QString &path, FileSignatureInf
         beginInsertRows(parentIndex, at, at);
         RealFile *rf = new RealFile(QFileInfo(fsi->getPath().c_str()).completeBaseName().toStdString().c_str(), false, fsi);
         f->add(rf);
-        fileFromUser.append(rf);;
+        fileFromUser.append(rf);
         endInsertRows();
     }
 }
