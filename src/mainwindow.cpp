@@ -189,7 +189,7 @@ void MainWindow::restoreFromJson()
 
 void MainWindow::generatePackage()
 {
-    QString deb_name = tabWidget->getControlFile()->getPackageName() + "-" + tabWidget->getControlFile()->getVersion() + ".deb";
+    QString deb_name = tabWidget->getControlFile()->getPackageName() + "_" + tabWidget->getControlFile()->getVersion() + ".deb";
     deb_name = QFileDialog::getSaveFileName(this, tr("Generate package"), deb_name, tr(".deb file (*.deb)"));
     if (!deb_name.isNull()){
         auto treeModel = dynamic_cast<TreePackageDragDropModel*>(treeView->model());
@@ -241,7 +241,7 @@ void MainWindow::generatePackage()
                 for (RealFile *f : files_list){
                     QString fPath;
                     AbstractFile *parent = f->getParent();
-                    while (parent->getParent() != nullptr){
+                    while (parent->hasParent()){
                         fPath.prepend(QString(parent->getName().c_str())+"/");
                         parent = parent->getParent();
                     }
