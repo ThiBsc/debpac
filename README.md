@@ -1,5 +1,5 @@
 # debpac
-A debian package creator assistant. [![Build Status](https://travis-ci.org/thibDev/debpac.svg?branch=master)](https://travis-ci.org/thibDev/debpac)
+A debian package creator assistant. [![Build Status](https://travis-ci.org/ThiBsc/debpac.svg?branch=master)](https://travis-ci.org/ThiBsc/debpac)
 
 ## Development status
 
