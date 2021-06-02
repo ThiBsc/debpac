@@ -28,7 +28,7 @@ Second release progress ![progress](http://progressed.io/bar/33)
 ## Installation
 
 ```shell
-git clone https://github.com/thibDev/debpac.git
+git clone https://github.com/thibsc/debpac.git
 cd debpac
 mkdir build
 cd build
