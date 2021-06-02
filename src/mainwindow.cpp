@@ -20,6 +20,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QToolButton>
+#include <QMessageBox>
 
 const QString MainWindow::version = "1";
 
@@ -245,6 +246,9 @@ void MainWindow::generatePackage()
                         fPath.prepend(QString(parent->getName().c_str())+"/");
                         parent = parent->getParent();
                     }
+#ifdef USE_TERMUX_PATH
+                    fPath.prepend("data/data/com.termux/files/");
+#endif
                     if (dir_package.mkpath(fPath)){
                         const QString origin = f->getFileSignatureInfo().getPath().c_str();
                         QFile::copy(origin, dir_package.filePath(fPath+QFileInfo(origin).fileName()));
@@ -258,6 +262,8 @@ void MainWindow::generatePackage()
                 dir_package.cd(tmp+"/"+tabWidget->getControlFile()->getPackageName());
                 dir_package.removeRecursively();
             }
+        } else {
+            QMessageBox::warning(this, tr("Mkdir"), QString("Can't create path %1").arg(tmp, "/", root->getName().c_str()));
         }
     }
 }

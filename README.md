@@ -3,7 +3,13 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/ThiBs
 
 ## Development status
 
-The first release is available ~~here !~~(bug to fix :white_check_mark:)
+> **Last update**:  
+Remove `gksu` dependency (removed from ubuntu)  
+To use TERMUX_PATH (`/data/data/com.termux/files/`), add the following line in the `debpac.pro` file:
+>```
+>DEFINES += USE_TERMUX_PATH
+>```
+
 
 In the next version:
 
@@ -18,7 +24,6 @@ Second release progress ![progress](http://progressed.io/bar/33)
 ## Requirements
 
 - qt5-default
-- gksu
 
 ## Installation
 

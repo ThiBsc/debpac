@@ -16,7 +16,7 @@ void ProcessDpkgdeb::generatePackage(const QString &tmpfolder, const QString &ou
 {
     param_folder = tmpfolder;
     param_out = outdebian;
-    start("gksudo", QStringList() << QString("dpkg-deb --build %1 %2").arg(param_folder).arg(param_out));
+    start("dpkg-deb", QStringList() << "--build" << param_folder << param_out);
 }
 
 void ProcessDpkgdeb::commandIsFinished(int exitCode, QProcess::ExitStatus exitStatus)

@@ -21,7 +21,7 @@ MenuHelp::~MenuHelp()
 
 void MenuHelp::showAbout()
 {
-    QMessageBox::about(parentWidget(), tr("About"), "<div><b>debpac v"+MainWindow::version+"</b><br>by thibDev, <a href='https://github.com/thibDev/debpac'>GitHub</a></div>");
+    QMessageBox::about(parentWidget(), tr("About"), "<div><b>debpac v"+MainWindow::version+"</b><br>by thibsc, <a href='https://github.com/thibsc/debpac'>GitHub</a></div>");
 }
 
 void MenuHelp::showCredits()
