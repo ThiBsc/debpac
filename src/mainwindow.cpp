@@ -198,9 +198,21 @@ void MainWindow::generatePackage()
         const QString tmp = QDir::tempPath();
         QDir dir_package(tmp);
         if (dir_package.mkdir(root->getName().c_str())){
+            // Set the right permissions to the ROOT folder
+            QFile(dir_package.absoluteFilePath(root->getName().c_str())).setPermissions(
+                QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner |
+                QFileDevice::ReadGroup | QFileDevice::ExeGroup |
+                QFileDevice::ReadOther | QFileDevice::ExeOther
+            );
             if (dir_package.cd(root->getName().c_str())){
                 // create the control file
                 if (dir_package.mkpath("DEBIAN")){
+                    // Set the right permissions to the DEBIAN folder
+                    QFile(dir_package.absoluteFilePath(QString("%1/DEBIAN").arg(root->getName().c_str()))).setPermissions(
+                        QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner |
+                        QFileDevice::ReadGroup | QFileDevice::ExeGroup |
+                        QFileDevice::ReadOther | QFileDevice::ExeOther
+                    );
                     QFile file(dir_package.filePath("DEBIAN/control"));
                     if (file.open(QIODevice::WriteOnly)){
                         // the control file has no comment, so remove it
@@ -211,6 +223,12 @@ void MainWindow::generatePackage()
                         }
                         file.write(clean_control.toStdString().c_str());
                         file.close();
+                        // Set the right permissions to the control file
+                        QFile(dir_package.absoluteFilePath(QString("%1/DEBIAN/control").arg(root->getName().c_str()))).setPermissions(
+                            QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner |
+                            QFileDevice::ReadGroup | QFileDevice::ExeGroup |
+                            QFileDevice::ReadOther | QFileDevice::ExeOther
+                        );
                     }
                 }
                 // create the script files
@@ -246,9 +264,7 @@ void MainWindow::generatePackage()
                         fPath.prepend(QString(parent->getName().c_str())+"/");
                         parent = parent->getParent();
                     }
-#ifdef USE_TERMUX_PATH
-                    fPath.prepend("data/data/com.termux/files/");
-#endif
+
                     if (dir_package.mkpath(fPath)){
                         const QString origin = f->getFileSignatureInfo().getPath().c_str();
                         QFile::copy(origin, dir_package.filePath(fPath+QFileInfo(origin).fileName()));

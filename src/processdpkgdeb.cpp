@@ -25,7 +25,12 @@ void ProcessDpkgdeb::commandIsFinished(int exitCode, QProcess::ExitStatus exitSt
         if (exitCode == 0){
             QMessageBox::information(dynamic_cast<QWidget*>(parent()), tr("Generate status"), QString("dpkg-deb finish with code %1\nYou package is located to:\n%2").arg(exitCode).arg(param_out));
         } else {
-            QMessageBox::critical(dynamic_cast<QWidget*>(parent()), tr("Generate status"), QString("dpkg-deb finish with code %1\nVerify your control file syntax or report the problem").arg(exitCode));
+            QString stdErr = this->readAllStandardError();
+            QMessageBox::critical(
+                dynamic_cast<QWidget*>(parent()),
+                tr("Generate status"),
+                QString("dpkg-deb finish with code %1\nVerify your control file syntax or report the problem\nstd_err: %2").arg(exitCode).arg(stdErr)
+            );
         }
     } else {
         QMessageBox::critical(dynamic_cast<QWidget*>(parent()), tr("Generate status"), QString("Error with the command line:\n%1").arg(program()));
