@@ -4,11 +4,7 @@ A debian package creator assistant. [![Build Status](https://travis-ci.org/ThiBs
 ## Development status
 
 > **Last update**:  
-Remove `gksu` dependency (removed from ubuntu)  
-To use TERMUX_PATH (`/data/data/com.termux/files/`), add the following line in the `debpac.pro` file:
->```
->DEFINES += USE_TERMUX_PATH
->```
+Remove `gksu` dependency (removed from ubuntu)
 
 
 In the next version:
