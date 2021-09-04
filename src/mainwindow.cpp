@@ -208,7 +208,7 @@ void MainWindow::generatePackage()
                 // create the control file
                 if (dir_package.mkpath("DEBIAN")){
                     // Set the right permissions to the DEBIAN folder
-                    QFile(dir_package.absoluteFilePath(QString("%1/DEBIAN").arg(root->getName().c_str()))).setPermissions(
+                    QFile(dir_package.current().absoluteFilePath("DEBIAN")).setPermissions(
                         QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner |
                         QFileDevice::ReadGroup | QFileDevice::ExeGroup |
                         QFileDevice::ReadOther | QFileDevice::ExeOther
@@ -224,7 +224,7 @@ void MainWindow::generatePackage()
                         file.write(clean_control.toStdString().c_str());
                         file.close();
                         // Set the right permissions to the control file
-                        QFile(dir_package.absoluteFilePath(QString("%1/DEBIAN/control").arg(root->getName().c_str()))).setPermissions(
+                        QFile(dir_package.current().absoluteFilePath("DEBIAN/control")).setPermissions(
                             QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner |
                             QFileDevice::ReadGroup | QFileDevice::ExeGroup |
                             QFileDevice::ReadOther | QFileDevice::ExeOther
