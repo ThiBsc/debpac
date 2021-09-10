@@ -1,7 +1,7 @@
 # debpac
 A debian package creator assistant. [![Build Status](https://travis-ci.org/ThiBsc/debpac.svg?branch=master)](https://travis-ci.org/ThiBsc/debpac)
 
-This package is available in [termux-x11-packages](https://github.com/termux/x11-packages) and maintained by [Yisus7u7](https://github.com/Yisus7u7)
+This package is available in Android [termux-x11-packages](https://github.com/termux/x11-packages) 
 
 ## Development status
 
