@@ -234,6 +234,11 @@ void MainWindow::generatePackage()
                         fPath.prepend(QString(parent->getName().c_str())+"/");
                         parent = parent->getParent();
                     }
+
+#ifdef USE_TERMUX_PATH
+                    if (QString(f->getName().c_str()).endsWith(".desktop"))
+                        fPath.prepend("data/data/com.termux/files/");
+#endif
                     if (dir_package.mkpath(fPath)){
                         QFile file(dir_package.filePath(fPath+f->getName().c_str()));
                         if (file.open(QIODevice::WriteOnly)){
@@ -258,7 +263,6 @@ void MainWindow::generatePackage()
                     }
 
 #ifdef USE_TERMUX_PATH
-                    std::cout << "USE_TERMUX_PATH" << std::endl;
                     fPath.prepend("data/data/com.termux/files/");
 #endif
 
