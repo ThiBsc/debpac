@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.7
+Type=Application
+Name=debpac
+Comment=Generate debian package graphically
+Exec=/usr/bin/debpac
+Icon=/usr/share/icons/hicolor/64x64/apps/package.png
+Categories=Development;Utility;
+Terminal=false
+StartupNotify=false
+
