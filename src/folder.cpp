@@ -95,7 +95,7 @@ AbstractFile *Folder::child(int row)
 int Folder::child(AbstractFile *af)
 {
     int ret = -1;
-    for (int i=0; i<tree.size() && ret==-1; i++){
+    for (ulong i=0; i<tree.size() && ret==-1; i++){
         if (tree[i] == af){
             ret = i;
         }

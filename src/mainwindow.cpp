@@ -167,7 +167,7 @@ void MainWindow::restoreFromJson()
                             tab_idx = tabWidget->addScriptEdit(key);
                             treeModel->addScriptFile(key);
                         }
-                        if (tab_idx)
+                        if (tab_idx>=0)
                             dynamic_cast<CodeEditor*>(tabWidget->widget(tab_idx))->setPlainText(scripts.take(key).toString());
                     }
 
